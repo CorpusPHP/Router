@@ -10,8 +10,8 @@ class HttpRouterTest extends \PHPUnit_Framework_TestCase {
 
 	public function testMatch() {
 
-		$server_arrays = [ [ ], [ 'REQUEST_METHOD' => 'post' ], [ 'REQUEST_METHOD' => 'Get' ] ];
-		$query_strings = [ '' => [ ], '?bob=ted' => [ 'bob' => 'ted' ], '?bob[]=1&bob[3]=5' => [ 'bob' => [ 1, 3 => 5 ] ] ];
+		$server_arrays = array( array(), array( 'REQUEST_METHOD' => 'post' ), array( 'REQUEST_METHOD' => 'Get' ) );
+		$query_strings = array( '' => array(), '?bob=ted' => array( 'bob' => 'ted' ), '?bob[]=1&bob[3]=5' => array( 'bob' => array( 1, 3 => 5 ) ) );
 
 		foreach( $this->namespaces as $ns ) {
 			foreach( $server_arrays as $server_array ) {
@@ -71,7 +71,7 @@ class HttpRouterTest extends \PHPUnit_Framework_TestCase {
 			$this->assertSame('/Monkeys/Love/Long/Paths:list', $router->generate($ns . '\\Monkeys\\Love\\Long\\Paths', 'list'));
 
 			$this->assertSame('/Monkeys/Love/Long/Paths:list?what=butt&crap%5Banimal%5D%5Btype%5D=fish',
-				$router->generate($ns . '\\Monkeys\\Love\\Long\\Paths', 'list', [ 'what' => 'butt', 'crap' => [ 'animal' => [ 'type' => 'fish' ] ] ]));
+				$router->generate($ns . '\\Monkeys\\Love\\Long\\Paths', 'list', array( 'what' => 'butt', 'crap' => array( 'animal' => array( 'type' => 'fish' ) ) )));
 
 			// Test Relative
 			$this->assertSame('/Monkey', $router->generate('Monkey'));
@@ -81,7 +81,7 @@ class HttpRouterTest extends \PHPUnit_Framework_TestCase {
 			$this->assertSame('/Monkeys/Love/Long/Paths:list', $router->generate('Monkeys\\Love\\Long\\Paths', 'list'));
 
 			$this->assertSame('/Monkeys/Love/Long/Paths:list?what=butt&crap%5Banimal%5D%5Btype%5D=fish',
-				$router->generate('Monkeys\\Love\\Long\\Paths', 'list', [ 'what' => 'butt', 'crap' => [ 'animal' => [ 'type' => 'fish' ] ] ]));
+				$router->generate('Monkeys\\Love\\Long\\Paths', 'list', array( 'what' => 'butt', 'crap' => array( 'animal' => array( 'type' => 'fish' ) ) )));
 
 		}
 

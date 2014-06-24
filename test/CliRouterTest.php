@@ -18,7 +18,7 @@ class CliRouterTest extends \PHPUnit_Framework_TestCase {
 			$this->assertEquals(array(
 					'controller' => $ns . '\\index',
 					'action'     => null,
-					'arguments'  => [],
+					'arguments'  => array(),
 				),
 				$router->match('/')
 			);
@@ -28,7 +28,7 @@ class CliRouterTest extends \PHPUnit_Framework_TestCase {
 			$this->assertEquals(array(
 					'controller' => $ns . '\\help',
 					'action'     => null,
-					'arguments'  => [],
+					'arguments'  => array(),
 				),
 				$router->match('help')
 			);
@@ -36,7 +36,7 @@ class CliRouterTest extends \PHPUnit_Framework_TestCase {
 			$this->assertEquals(array(
 					'controller' => $ns . '\\help',
 					'action'     => 'otherAction',
-					'arguments'  => [],
+					'arguments'  => array(),
 				),
 				$router->match('help:otherAction')
 			);
@@ -44,7 +44,7 @@ class CliRouterTest extends \PHPUnit_Framework_TestCase {
 			$this->assertEquals(array(
 					'controller' => $ns . '\\help\\i\\am\\stuck',
 					'action'     => null,
-					'arguments'  => [],
+					'arguments'  => array(),
 				),
 				$router->match('help/i/am/stuck')
 			);
@@ -52,7 +52,7 @@ class CliRouterTest extends \PHPUnit_Framework_TestCase {
 			$this->assertEquals(array(
 					'controller' => $ns . '\\help\\i\\am\\stuck',
 					'action'     => 'funkyfuntimes',
-					'arguments'  => [],
+					'arguments'  => array(),
 				),
 				$router->match('help/i/am/stuck:funkyfuntimes')
 			);
