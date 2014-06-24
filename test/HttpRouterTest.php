@@ -22,31 +22,31 @@ class HttpRouterTest extends \PHPUnit_Framework_TestCase {
 
 					$this->assertSame(false, $router->match('' . $query_string));
 
-					$result = [
+					$result = array(
 						'controller' => $ns . '\\index',
 						'options'    => $query_data,
 						'action'     => null,
-					];
+					);
 					if( $rm ) {
 						$result['request']['method'] = $rm;
 					}
 					$this->assertEquals($result, $router->match('/' . $query_string));
 
-					$result = [
+					$result = array(
 						'controller' => $ns . '\\Baz\\Qux',
 						'options'    => $query_data,
 						'action'     => null,
-					];
+					);
 					if( $rm ) {
 						$result['request']['method'] = $rm;
 					}
 					$this->assertEquals($result, $router->match('/Baz/Qux' . $query_string));
 
-					$result = [
+					$result = array(
 						'controller' => $ns . '\\Baz\\Qux',
 						'options'    => $query_data,
 						'action'     => 'What',
-					];
+					);
 					if( $rm ) {
 						$result['request']['method'] = $rm;
 					}
