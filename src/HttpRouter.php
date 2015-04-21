@@ -45,7 +45,10 @@ class HttpRouter extends AbstractRouter implements ReversibleRouterInterface {
 		) {
 			$parts = explode('/', $regs['namespace'] . $regs['class_name']);
 			array_unshift($parts, $this->namespace);
-			$class_name = '\\' . implode('\\', $parts);
+			$class_name = $this->classNameC14N(implode('\\', $parts));
+			if( $class_name === false ) {
+				throw new \RuntimeException; // this should never happen
+			}
 
 			$return = array(
 				'controller' => $class_name,
