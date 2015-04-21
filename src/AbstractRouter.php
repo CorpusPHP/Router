@@ -52,4 +52,28 @@ abstract class AbstractRouter implements RouterInterface {
 		return $opts;
 	}
 
+	/**
+	 * @param $controller
+	 * @return bool|string
+	 */
+	protected function classNameC14N( $controller ) {
+		$class_name = false;
+		if( is_object($controller) && is_callable($controller) && $this->isOfNamespace($class_name = get_class($controller)) ) {
+		} elseif( is_string($controller) && $controller ) {
+			if( $this->isOfNamespace($controller) ) {
+				$class_name = $this->trimSlashes($controller);
+
+				return $class_name;
+			} elseif( $controller[0] != '\\' ) {
+				$class_name = $this->namespace . '\\' . $this->trimSlashes($controller);
+
+				return $class_name;
+			}
+
+			return $class_name;
+		}
+
+		return $class_name;
+	}
+
 }

@@ -71,16 +71,7 @@ class HttpRouter extends AbstractRouter implements ReversibleRouterInterface {
 	 * @throws Exceptions\NonRoutableException
 	 */
 	public function generate( $controller, $action = null, array $options = array() ) {
-		$class_name = false;
-		if( is_object($controller) && is_callable($controller) && $this->isOfNamespace($class_name = get_class($controller)) ) {
-
-		} elseif( is_string($controller) && $controller ) {
-			if( $this->isOfNamespace($controller) ) {
-				$class_name = $this->trimSlashes($controller);
-			} elseif( $controller[0] != '\\' ) {
-				$class_name = $this->namespace . '\\' . $this->trimSlashes($controller);
-			}
-		}
+		$class_name = $this->classNameC14N($controller);
 
 		if( !$class_name ) {
 			throw new NonRoutableException("Controller '{$controller}' should be a valid controller class/classname and of namespace {$this->namespace}");
