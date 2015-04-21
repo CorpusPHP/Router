@@ -4,12 +4,9 @@ namespace Corpus\Router\Interfaces;
 
 interface RouterInterface {
 
-	function __construct( $root_namespace );
-
 	/**
 	 * @param string $path
-	 * @return array
+	 * @return array|false
 	 */
 	public function match( $path );
-
 }
