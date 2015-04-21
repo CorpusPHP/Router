@@ -48,7 +48,8 @@ abstract class AbstractRouter implements RouterInterface {
 	 * @return array
 	 */
 	protected function parseStr( $query_str ) {
-		parse_str( $query_str, $opts );
+		parse_str($query_str, $opts);
+
 		return $opts;
 	}
 
@@ -62,18 +63,15 @@ abstract class AbstractRouter implements RouterInterface {
 		} elseif( is_string($controller) && $controller ) {
 			if( $this->isOfNamespace($controller) ) {
 				$class_name = $this->trimSlashes($controller);
-
-				return $class_name;
 			} elseif( $controller[0] != '\\' ) {
 				$class_name = $this->namespace . '\\' . $this->trimSlashes($controller);
-
-				return $class_name;
 			}
+		}
 
-			return $class_name;
+		if($class_name !== false) {
+			$class_name = '\\' . ltrim($class_name, '\\');
 		}
 
 		return $class_name;
 	}
-
 }
