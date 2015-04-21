@@ -28,7 +28,7 @@ class MultiReversibleRouter extends MultiRouter {
 	 * @param array         $options
 	 * @return string|false
 	 */
-	public function generate( $controller, $action = null, array $options = [ ] ) {
+	public function generate( $controller, $action = null, array $options = array() ) {
 		/**
 		 * @var $router ReversibleRouterInterface
 		 */

@@ -14,7 +14,7 @@ class MultiRouter implements RouterInterface {
 	/**
 	 * @var RouterInterface[]
 	 */
-	protected $routers = [ ];
+	protected $routers = array();
 
 	/**
 	 * @param ... RouterInterface
