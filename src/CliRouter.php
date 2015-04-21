@@ -13,7 +13,7 @@ class CliRouter extends AbstractRouter {
 
 	/**
 	 * @param string $path
-	 * @return array
+	 * @return array|false
 	 */
 	public function match( $path ) {
 		if( substr($path, -1) == '/' ) {
