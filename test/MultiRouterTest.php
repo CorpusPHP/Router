@@ -71,6 +71,6 @@ class MultiRouterTest extends \PHPUnit_Framework_TestCase {
 		$ri3 = $this->getMock('\Corpus\Router\Interfaces\RouterInterface');
 
 		$router = new MultiRouter($ri1, $ri2, $ri3);
-		$this->assertSame([ $ri1, $ri2, $ri3 ], $router->getRouters());
+		$this->assertSame(array( $ri1, $ri2, $ri3 ), $router->getRouters());
 	}
 }
