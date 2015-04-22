@@ -37,7 +37,7 @@ class HttpRuleRouter extends AbstractRouter implements ReversibleRouterInterface
 		$keys   = array();
 		$tokens = array();
 		foreach( $parts as $i => $part ) {
-			$tokens [] = $part;
+			$tokens[] = $part;
 
 			if( isset($matches[0][$i]) ) {
 				$name = $matches['name'][$i];
@@ -65,21 +65,21 @@ class HttpRuleRouter extends AbstractRouter implements ReversibleRouterInterface
 			}
 		}
 
-		$this->rules[] = [
+		$this->rules[] = array(
 			'tokens' => $tokens,
 			'route'  => $route,
 			'keys'   => $keys,
-		];
+		);
 	}
 
 	protected function tokensToRegex( array $tokens ) {
 		$out   = '%^';
-		$trans = [
+		$trans = array(
 			'a' => '[a-zA-Z]+?',
 			'd' => '\d+',
 			's' => '\S+?',
 			'w' => '\w+?',
-		];
+		);
 
 		foreach( $tokens as $token ) {
 			if( is_array($token) && count($token) == 2 ) {
@@ -118,11 +118,11 @@ class HttpRuleRouter extends AbstractRouter implements ReversibleRouterInterface
 					$xargs[$key] = urldecode($matches[$key]);
 				}
 
-				$return = [
+				$return = array(
 					'controller' => $rule['route'],
 					'action'     => null,
 					'options'    => $xargs,
-				];
+				);
 
 				if( !empty($xargs['_action']) ) {
 					$return['action'] = $xargs['_action'];
