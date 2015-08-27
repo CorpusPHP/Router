@@ -16,11 +16,11 @@ Corpus Router is available through Packagist via Composer.
 
 ```json
 {
-					"require": {
-					"corpus/router": "dev-master",
-					}
-					}
-				
+	"require": {
+		"corpus/router": "dev-master",
+	}
+}
+
 ```
 
 ## Usage
