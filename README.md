@@ -4,7 +4,7 @@
 [![License](https://poser.pugx.org/corpus/router/license.png)](https://packagist.org/packages/corpus/router)
 [![Build Status](https://travis-ci.org/CorpusPHP/Router.svg?branch=master)](https://travis-ci.org/CorpusPHP/Router)
 
-A Simple Router
+A Simple Collection of Routers
 
 ## Requirements
 
