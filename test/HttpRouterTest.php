@@ -11,7 +11,12 @@ class HttpRouterTest extends \PHPUnit_Framework_TestCase {
 	public function testMatch() {
 
 		$server_arrays = array( array(), array( 'REQUEST_METHOD' => 'post' ), array( 'REQUEST_METHOD' => 'Get' ) );
-		$query_strings = array( '' => array(), '?bob=ted' => array( 'bob' => 'ted' ), '?bob[]=1&bob[3]=5' => array( 'bob' => array( 1, 3 => 5 ) ) );
+		$query_strings = array(
+			''                  => array(),
+			'?bob=ted'          => array( 'bob' => 'ted' ),
+			'?bob[]=1&bob[3]=5' => array( 'bob' => array( 1, 3 => 5 ) ),
+			'?what=0'           => array( 'what' => 0 ),
+		);
 
 		foreach( $this->namespaces as $ns ) {
 			foreach( $server_arrays as $server_array ) {
@@ -82,9 +87,7 @@ class HttpRouterTest extends \PHPUnit_Framework_TestCase {
 
 			$this->assertSame('/Monkeys/Love/Long/Paths:list?what=butt&crap%5Banimal%5D%5Btype%5D=fish',
 				$router->generate('Monkeys\\Love\\Long\\Paths', 'list', array( 'what' => 'butt', 'crap' => array( 'animal' => array( 'type' => 'fish' ) ) )));
-
 		}
-
 	}
 
 	/**

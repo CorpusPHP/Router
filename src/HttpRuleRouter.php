@@ -4,6 +4,7 @@ namespace Corpus\Router;
 
 use Corpus\Router\Exceptions\InvalidRuleException;
 use Corpus\Router\Exceptions\NonRoutableException;
+use Corpus\Router\Exceptions\RouteGenerationFailedException;
 use Corpus\Router\Interfaces\ReversibleRouterInterface;
 
 class HttpRuleRouter extends AbstractRouter implements ReversibleRouterInterface {
@@ -119,13 +120,13 @@ class HttpRuleRouter extends AbstractRouter implements ReversibleRouterInterface
 				}
 
 				$return = array(
-					'controller' => $rule['route'],
-					'action'     => null,
-					'options'    => $xargs,
+					self::CONTROLLER => $rule['route'],
+					self::ACTION     => null,
+					self::OPTIONS    => $xargs,
 				);
 
 				if( !empty($xargs['_action']) ) {
-					$return['action'] = $xargs['_action'];
+					$return[self::ACTION] = $xargs['_action'];
 				}
 
 				if( !empty($this->server['REQUEST_METHOD']) ) {
@@ -143,8 +144,9 @@ class HttpRuleRouter extends AbstractRouter implements ReversibleRouterInterface
 	 * @param string|object $controller Instance or Relative 'admin\index' or absolute '\Controllers\www\admin\index'
 	 * @param string|null   $action
 	 * @param array         $options
-	 * @return string|false
-	 * @throws Exceptions\NonRoutableException
+	 * @return string
+	 * @throws \Corpus\Router\Exceptions\NonRoutableException
+	 * @throws \Corpus\Router\Exceptions\RouteGenerationFailedException
 	 */
 	public function generate( $controller, $action = null, array $options = array() ) {
 		$class_name = $this->classNameC14N($controller);
@@ -185,7 +187,9 @@ class HttpRuleRouter extends AbstractRouter implements ReversibleRouterInterface
 					}
 				}
 
-				$options = array_filter($xoptions);
+				$options = array_filter($xoptions, function ( $val ) {
+					return !is_null($val);
+				});
 				if( count($options) > 0 ) {
 					$path .= '?' . http_build_query($xoptions);
 				}
@@ -194,7 +198,7 @@ class HttpRuleRouter extends AbstractRouter implements ReversibleRouterInterface
 			}
 		}
 
-		return false;
+		throw new RouteGenerationFailedException('no route matched');
 	}
 
 	/**

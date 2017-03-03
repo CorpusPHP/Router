@@ -4,6 +4,8 @@ namespace Corpus\Router;
 
 class CliRouter extends AbstractRouter {
 
+	const ARGUMENTS = 'arguments';
+
 	protected $arguments;
 
 	function __construct( $root_namespace, array $arguments = array() ) {
@@ -36,9 +38,9 @@ class CliRouter extends AbstractRouter {
 			$class_name = '\\' . implode('\\', $parts);
 
 			$return = array(
-				'controller' => $class_name,
-				'arguments'  => $this->arguments,
-				'action'     => null,
+				self::CONTROLLER => $class_name,
+				self::ARGUMENTS  => $this->arguments,
+				self::ACTION     => null,
 			);
 
 			if( !empty($regs['action']) && ctype_alpha($regs['action']) ) {

@@ -51,13 +51,13 @@ class HttpRouter extends AbstractRouter implements ReversibleRouterInterface {
 			}
 
 			$return = array(
-				'controller' => $class_name,
-				'action'     => null,
-				'options'    => $args,
+				self::CONTROLLER => $class_name,
+				self::ACTION     => null,
+				self::OPTIONS    => $args,
 			);
 
-			if( !empty($regs['action']) && ctype_alpha($regs['action']) ) {
-				$return['action'] = $regs['action'];
+			if( !empty($regs[self::ACTION]) && ctype_alpha($regs[self::ACTION]) ) {
+				$return[self::ACTION] = $regs[self::ACTION];
 			}
 
 			if( !empty($this->server['REQUEST_METHOD']) ) {

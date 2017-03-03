@@ -2,14 +2,16 @@
 
 namespace Corpus\Router;
 
+use Corpus\Router\Exceptions\RouteGenerationFailedException;
 use Corpus\Router\Interfaces\ReversibleRouterInterface;
 use Corpus\Router\Interfaces\RouterInterface;
 
-class MultiReversibleRouter extends MultiRouter {
+class MultiReversibleRouter extends MultiRouter implements ReversibleRouterInterface {
 
 	/**
 	 * Add a router to the queue
 	 *
+	 * @inheritdoc
 	 * @param \Corpus\Router\Interfaces\ReversibleRouterInterface $router
 	 */
 	public function addRouter( RouterInterface $router ) {
@@ -26,20 +28,21 @@ class MultiReversibleRouter extends MultiRouter {
 	 * @param string|object $controller Instance or Relative 'admin\index' or absolute '\Controllers\www\admin\index'
 	 * @param string|null   $action
 	 * @param array         $options
-	 * @return string|false
+	 * @return string
+	 * @throws \Corpus\Router\Exceptions\RouteGenerationFailedException
 	 */
 	public function generate( $controller, $action = null, array $options = array() ) {
 		/**
 		 * @var $router ReversibleRouterInterface
 		 */
 		foreach( $this->routers as $router ) {
-			$link = $router->generate($controller, $action, $options);
-
-			if( $link !== false ) {
-				return $link;
+			try {
+				return $router->generate($controller, $action, $options);
+			} catch(RouteGenerationFailedException $ex) {
+				continue;
 			}
 		}
 
-		return false;
+		throw new RouteGenerationFailedException('none of the routers available were able to generate a link');
 	}
 }

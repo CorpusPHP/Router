@@ -2,6 +2,7 @@
 
 namespace Corpus\Test\Router;
 
+use Corpus\Router\Exceptions\RouteGenerationFailedException;
 use Corpus\Router\HttpRuleRouter;
 
 class HttpRuleRouterTest extends \PHPUnit_Framework_TestCase {
@@ -74,32 +75,83 @@ class HttpRuleRouterTest extends \PHPUnit_Framework_TestCase {
 			$this->assertSame('/who/myAction/what', $router->generate($ns . '\\Monkey', 'myAction'));
 			$this->assertSame('/who/myAction/what?param=whynot', $router->generate($ns . '\\Monkey', 'myAction', array( 'param' => 'whynot' )));
 
+			// Regression test -
+			// y values kept, nulls removed.
+			$this->assertSame('/who/foo/what?why=0&butt=', $router->generate($ns . '\\Monkey', 'foo', array( 'why' => 0, 'butt' => '', 'gut' => null )));
+
 			$router->addRule('foo/{bar}/baz', 'Donkey');
 			$this->assertSame('/foo/bbq/baz', $router->generate($ns . '\\Donkey', null, array( 'bar' => 'bbq' )));
 			$this->assertSame('/foo/bbq/baz?extra=awesome', $router->generate($ns . '\\Donkey', null, array( 'bar' => 'bbq', 'extra' => 'awesome' )));
 			// test matched params must be scalar
-			$this->assertFalse($router->generate($ns . '\\Donkey', null, array( 'bar' => array( 'baz', 'bum' ) )));
+			try {
+				$router->generate($ns . '\\Donkey', null, array( 'bar' => array( 'baz', 'bum' ) ));
+				$this->fail('Should have thrown a GenerationFailedException');
+			} catch(RouteGenerationFailedException $e) { 
+				// noop
+			}
 
 			$router->addRule('bar/{qux|d}/bbq', 'Goose');
 			$this->assertSame('/bar/1986/bbq', $router->generate($ns . '\\Goose', null, array( 'qux' => 1986 )));
 			// test matched parens must match type
-			$this->assertFalse($router->generate($ns . '\\Goose', null, array( 'qux' => 'quux' )));
-			$this->assertFalse($router->generate($ns . '\\Goose', null, array( 'qux' => '-1000' ))); //doesn't do signed
-			$this->assertFalse($router->generate($ns . '\\Goose', null, array( 'qux' => '1.1' )));   //doesn't do float
+			try {
+				$router->generate($ns . '\\Goose', null, array( 'qux' => 'quux' ));
+				$this->fail('Should have thrown a GenerationFailedException');
+			} catch(RouteGenerationFailedException $e) { 
+				// noop
+			}
+			try {
+				$router->generate($ns . '\\Goose', null, array( 'qux' => '-1000' ));
+				$this->fail('Should have thrown a GenerationFailedException');
+			} catch(RouteGenerationFailedException $e) { 
+				// noop
+			}
+			//doesn't do signed
+			try {
+				$router->generate($ns . '\\Goose', null, array( 'qux' => '1.1' ));
+				$this->fail('Should have thrown a GenerationFailedException');
+			} catch(RouteGenerationFailedException $e) { 
+				// noop
+			}
+			//doesn't do float
 
 			$router->addRule('qux/{quux|a}/garply', 'Gander');
 			$this->assertSame('/qux/string/garply', $router->generate($ns . '\\Gander', null, array( 'quux' => 'string' )));
 			// test matched parens must match type
-			$this->assertFalse($router->generate($ns . '\\Gander', null, array( 'quux' => 1986 )));
-			$this->assertFalse($router->generate($ns . '\\Gander', null, array( 'quux' => 'alpha_underscore' )));
-			$this->assertFalse($router->generate($ns . '\\Gander', null, array( 'garply' => 'has-hyphen' )));
+			try {
+				$router->generate($ns . '\\Gander', null, array( 'quux' => 1986 ));
+				$this->fail('Should have thrown a GenerationFailedException');
+			} catch(RouteGenerationFailedException $e) { 
+				// noop
+			}
+			try {
+				$router->generate($ns . '\\Gander', null, array( 'quux' => 'alpha_underscore' ));
+				$this->fail('Should have thrown a GenerationFailedException');
+			} catch(RouteGenerationFailedException $e) { 
+				// noop
+			}
+			try {
+				$router->generate($ns . '\\Gander', null, array( 'garply' => 'has-hyphen' ));
+				$this->fail('Should have thrown a GenerationFailedException');
+			} catch(RouteGenerationFailedException $e) { 
+				// noop
+			}
 
 			$router->addRule('quux/{garply|w}/fry', 'Meander');
 			$this->assertSame('/quux/string/fry', $router->generate($ns . '\\Meander', null, array( 'garply' => 'string' )));
 			$this->assertSame('/quux/1986/fry', $router->generate($ns . '\\Meander', null, array( 'garply' => '1986' )));
 			$this->assertSame('/quux/alpha_underscore/fry', $router->generate($ns . '\\Meander', null, array( 'garply' => 'alpha_underscore' )));
-			$this->assertFalse($router->generate($ns . '\\Meander', null, array( 'garply' => 'has space' )));
-			$this->assertFalse($router->generate($ns . '\\Meander', null, array( 'garply' => 'has-hyphen' )));
+			try {
+				$router->generate($ns . '\\Meander', null, array( 'garply' => 'has space' ));
+				$this->fail('Should have thrown a GenerationFailedException');
+			} catch(RouteGenerationFailedException $e) { 
+				// noop
+			}
+			try {
+				$router->generate($ns . '\\Meander', null, array( 'garply' => 'has-hyphen' ));
+				$this->fail('Should have thrown a GenerationFailedException');
+			} catch(RouteGenerationFailedException $e) { 
+				// noop
+			}
 
 			$router = new HttpRuleRouter($ns);
 
