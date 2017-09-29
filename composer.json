@@ -2,12 +2,17 @@
 	"name": "corpus/router",
 	"description": "Simple Router",
 	"license": "MIT",
-	"authors": [{
-		"name": "Jesse Donat",
-		"email": "donatj@gmail.com"
-	}],
-	"require-dev":{
-		"phpunit/phpunit" : "~4.1"
+	"authors": [
+		{
+			"name": "Jesse Donat",
+			"email": "donatj@gmail.com"
+		}
+	],
+	"require": {
+		"php": ">=5.3"
+	},
+	"require-dev": {
+		"phpunit/phpunit": "~4.1"
 	},
 	"autoload": {
 		"psr-4": {

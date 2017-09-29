@@ -1,26 +1,22 @@
 # Corpus Router
 
-[![Latest Stable Version](https://poser.pugx.org/corpus/router/v/stable.png)](https://packagist.org/packages/corpus/router)
-[![License](https://poser.pugx.org/corpus/router/license.png)](https://packagist.org/packages/corpus/router)
+[![Latest Stable Version](https://poser.pugx.org/corpus/router/version)](https://packagist.org/packages/corpus/router)
+[![License](https://poser.pugx.org/corpus/router/license)](https://packagist.org/packages/corpus/router)
 [![Build Status](https://travis-ci.org/CorpusPHP/Router.svg?branch=master)](https://travis-ci.org/CorpusPHP/Router)
+
 
 A Simple Collection of Routers
 
 ## Requirements
 
-- PHP 5.3.0+
+- **php**: >=5.3
 
 ## Installing
 
-Corpus Router is available through Packagist via Composer.
+Install the latest version with:
 
-```json
-{
-	"require": {
-		"corpus/router": "dev-master",
-	}
-}
-
+```bash
+composer require 'corpus/router'
 ```
 
 ## Usage
@@ -96,93 +92,128 @@ try {
 
 ## Documentation
 
-### Class: HttpRouter \[ `\Corpus\Router` \]
+### Class: \Corpus\Router\HttpRouter
 
-#### Method: `HttpRouter->__construct($root_namespace [, $server = array()])`
+```php
+<?php
+namespace Corpus\Router;
+
+class HttpRouter {
+	const ACTION = 'action';
+	const CONTROLLER = 'controller';
+	const OPTIONS = 'options';
+}
+```
+
+#### Method: HttpRouter->__construct
+
+```php
+function __construct($root_namespace [, $server = array()])
+```
 
 ##### Parameters:
 
 - ***string*** `$root_namespace`
 - ***array*** `$server` - The $_SERVER array - optional
 
-
-
 ---
 
-#### Method: `HttpRouter->match($path)`
+#### Method: HttpRouter->match
+
+```php
+function match($path)
+```
 
 ##### Parameters:
 
 - ***string*** `$path`
 
-
 ##### Returns:
 
-- ***array***
-
+- ***array*** | ***false***
 
 ---
 
-#### Method: `HttpRouter->generate($controller [, $action = null [, $options = array()]])`
+#### Method: HttpRouter->generate
+
+```php
+function generate($controller [, $action = null [, $options = array()]])
+```
 
 ##### Parameters:
 
 - ***string*** | ***object*** `$controller` - Instance or Relative 'admin\index' or absolute '\Controllers\www\admin\index'
 - ***string*** | ***null*** `$action`
-- ***array*** | ***null*** `$options`
-
+- ***array*** `$options`
 
 ##### Returns:
 
 - ***string***
 
-
 ---
 
-#### Method: `HttpRouter->getNamespace()`
+#### Method: HttpRouter->getNamespace
 
-Return the canonicalized namespace prefix  
-  
+```php
+function getNamespace()
+```
 
+Return the canonicalized namespace prefix
 
 ##### Returns:
 
 - ***String***
 
+### Class: \Corpus\Router\CliRouter
 
-### Class: CliRouter \[ `\Corpus\Router` \]
+```php
+<?php
+namespace Corpus\Router;
 
-#### Method: `CliRouter->__construct($root_namespace [, $arguments = array()])`
+class CliRouter {
+	const ARGUMENTS = 'arguments';
+	const ACTION = 'action';
+	const CONTROLLER = 'controller';
+	const OPTIONS = 'options';
+}
+```
+
+#### Method: CliRouter->__construct
+
+```php
+function __construct($root_namespace [, $arguments = array()])
+```
 
 ##### Parameters:
 
 - ***string*** `$root_namespace` - The namespace prefix the controllers will be under
 
-
-
 ---
 
-#### Method: `CliRouter->match($path)`
+#### Method: CliRouter->match
+
+```php
+function match($path)
+```
 
 ##### Parameters:
 
 - ***string*** `$path`
 
-
 ##### Returns:
 
-- ***array***
-
+- ***array*** | ***false***
 
 ---
 
-#### Method: `CliRouter->getNamespace()`
+#### Method: CliRouter->getNamespace
 
-Return the canonicalized namespace prefix  
-  
+```php
+function getNamespace()
+```
 
+Return the canonicalized namespace prefix
 
 ##### Returns:
 
 - ***String***
-
