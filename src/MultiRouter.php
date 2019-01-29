@@ -43,17 +43,17 @@ class MultiRouter implements RouterInterface {
 	 * Loops over routers in the order they were added until a match is found.
 	 *
 	 * @param string $path
-	 * @return array|false
+	 * @return array|null
 	 */
-	public function match( $path ) {
+	public function match( string $path ) : ?array {
 		foreach( $this->routers as $router ) {
 			$match = $router->match($path);
 
-			if( $match !== false ) {
+			if( $match !== null ) {
 				return $match;
 			}
 		}
 
-		return false;
+		return null;
 	}
 }

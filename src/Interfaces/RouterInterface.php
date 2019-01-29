@@ -4,13 +4,13 @@ namespace Corpus\Router\Interfaces;
 
 interface RouterInterface {
 
-	const ACTION     = 'action';
-	const CONTROLLER = 'controller';
-	const OPTIONS    = 'options';
+	public const ACTION     = 'action';
+	public const CONTROLLER = 'controller';
+	public const OPTIONS    = 'options';
 
 	/**
 	 * @param string $path
-	 * @return array|false
+	 * @return array|null
 	 */
-	public function match( $path );
+	public function match( string $path ) : ?array;
 }

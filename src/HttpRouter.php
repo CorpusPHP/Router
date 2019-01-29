@@ -20,9 +20,9 @@ class HttpRouter extends AbstractRouter implements ReversibleRouterInterface {
 
 	/**
 	 * @param string $path
-	 * @return array|false
+	 * @return array|null
 	 */
-	public function match( $path ) {
+	public function match( string $path ) : ?array {
 		$parts = parse_url($path);
 
 		$path = empty($parts['path']) ? '' : $parts['path'];
@@ -67,17 +67,17 @@ class HttpRouter extends AbstractRouter implements ReversibleRouterInterface {
 			return $return;
 		}
 
-		return false;
+		return null;
 	}
 
 	/**
 	 * @param object|string $controller Instance or Relative 'admin\index' or absolute '\Controllers\www\admin\index'
 	 * @param string|null   $action
 	 * @param array         $options
-	 * @throws Exceptions\NonRoutableException
 	 * @return string
+	 * @throws \Corpus\Router\Exceptions\NonRoutableException
 	 */
-	public function generate( $controller, $action = null, array $options = [] ) {
+	public function generate( $controller, $action = null, array $options = [] ) : string {
 		$class_name = $this->classNameC14N($controller);
 
 		if( !$class_name ) {

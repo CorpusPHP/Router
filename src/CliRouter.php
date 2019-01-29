@@ -15,9 +15,9 @@ class CliRouter extends AbstractRouter {
 
 	/**
 	 * @param string $path
-	 * @return array|false
+	 * @return array|null
 	 */
-	public function match( $path ) {
+	public function match( string $path ) : ?array {
 		if( substr($path, -1) == '/' ) {
 			$path .= 'index';
 		}
@@ -50,7 +50,7 @@ class CliRouter extends AbstractRouter {
 			return $return;
 		}
 
-		return false;
+		return null;
 	}
 
 }
