@@ -9,7 +9,7 @@ A Simple Collection of Routers
 
 ## Requirements
 
-- **php**: >=5.3
+- **php**: >=7.1
 
 ## Installing
 
