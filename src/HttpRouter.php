@@ -13,7 +13,7 @@ class HttpRouter extends AbstractRouter implements ReversibleRouterInterface {
 	 * @param string $root_namespace
 	 * @param array  $server The $_SERVER array - optional
 	 */
-	function __construct( $root_namespace, $server = array() ) {
+	public function __construct( $root_namespace, $server = [] ) {
 		$this->server = $server;
 		parent::__construct($root_namespace);
 	}
@@ -25,8 +25,8 @@ class HttpRouter extends AbstractRouter implements ReversibleRouterInterface {
 	public function match( $path ) {
 		$parts = parse_url($path);
 
-		$path = empty($parts['path'])  ? '' : $parts['path'];
-		$args = empty($parts['query']) ? array() : $this->parseStr( $parts['query'] );
+		$path = empty($parts['path']) ? '' : $parts['path'];
+		$args = empty($parts['query']) ? [] : $this->parseStr($parts['query']);
 
 		if( substr($path, -1) == '/' ) {
 			$path .= 'index';
@@ -50,11 +50,11 @@ class HttpRouter extends AbstractRouter implements ReversibleRouterInterface {
 				throw new \RuntimeException; // this should never happen
 			}
 
-			$return = array(
+			$return = [
 				self::CONTROLLER => $class_name,
 				self::ACTION     => null,
 				self::OPTIONS    => $args,
-			);
+			];
 
 			if( !empty($regs[self::ACTION]) && ctype_alpha($regs[self::ACTION]) ) {
 				$return[self::ACTION] = $regs[self::ACTION];
@@ -71,13 +71,13 @@ class HttpRouter extends AbstractRouter implements ReversibleRouterInterface {
 	}
 
 	/**
-	 * @param string|object $controller Instance or Relative 'admin\index' or absolute '\Controllers\www\admin\index'
+	 * @param object|string $controller Instance or Relative 'admin\index' or absolute '\Controllers\www\admin\index'
 	 * @param string|null   $action
 	 * @param array         $options
-	 * @return string
 	 * @throws Exceptions\NonRoutableException
+	 * @return string
 	 */
-	public function generate( $controller, $action = null, array $options = array() ) {
+	public function generate( $controller, $action = null, array $options = [] ) {
 		$class_name = $this->classNameC14N($controller);
 
 		if( !$class_name ) {

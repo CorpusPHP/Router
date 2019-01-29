@@ -25,20 +25,20 @@ class MultiReversibleRouter extends MultiRouter implements ReversibleRouterInter
 	/**
 	 * Loops over routers in the order they were added until a generated URL is found.
 	 *
-	 * @param string|object $controller Instance or Relative 'admin\index' or absolute '\Controllers\www\admin\index'
+	 * @param object|string $controller Instance or Relative 'admin\index' or absolute '\Controllers\www\admin\index'
 	 * @param string|null   $action
 	 * @param array         $options
-	 * @return string
 	 * @throws \Corpus\Router\Exceptions\RouteGenerationFailedException
+	 * @return string
 	 */
-	public function generate( $controller, $action = null, array $options = array() ) {
+	public function generate( $controller, $action = null, array $options = [] ) {
 		/**
 		 * @var $router ReversibleRouterInterface
 		 */
 		foreach( $this->routers as $router ) {
 			try {
 				return $router->generate($controller, $action, $options);
-			} catch(RouteGenerationFailedException $ex) {
+			} catch( RouteGenerationFailedException $ex ) {
 				continue;
 			}
 		}

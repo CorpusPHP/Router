@@ -7,14 +7,14 @@ use Corpus\Router\Interfaces\RouterInterface;
 abstract class AbstractRouter implements RouterInterface {
 
 	/**
-	 * @var String
+	 * @var string
 	 */
 	protected $namespace;
 
 	/**
 	 * @param string $root_namespace The namespace prefix the controllers will be under
 	 */
-	function __construct( $root_namespace ) {
+	public function __construct( $root_namespace ) {
 		$this->namespace = $this->trimSlashes($root_namespace);
 	}
 
@@ -22,14 +22,14 @@ abstract class AbstractRouter implements RouterInterface {
 	 * @param $path
 	 * @return string
 	 */
-	protected final function trimSlashes( $path ) {
+	final protected function trimSlashes( $path ) {
 		return trim($path, ' /\\');
 	}
 
 	/**
 	 * Return the canonicalized namespace prefix
 	 *
-	 * @return String
+	 * @return string
 	 */
 	public function getNamespace() {
 		return $this->namespace;
@@ -68,7 +68,7 @@ abstract class AbstractRouter implements RouterInterface {
 			}
 		}
 
-		if($class_name !== false) {
+		if( $class_name !== false ) {
 			$class_name = '\\' . ltrim($class_name, '\\');
 		}
 

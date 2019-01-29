@@ -8,7 +8,7 @@ class CliRouter extends AbstractRouter {
 
 	protected $arguments;
 
-	function __construct( $root_namespace, array $arguments = array() ) {
+	public function __construct( $root_namespace, array $arguments = [] ) {
 		$this->arguments = $arguments;
 		parent::__construct($root_namespace);
 	}
@@ -37,11 +37,11 @@ class CliRouter extends AbstractRouter {
 			array_unshift($parts, $this->namespace);
 			$class_name = '\\' . implode('\\', $parts);
 
-			$return = array(
+			$return = [
 				self::CONTROLLER => $class_name,
 				self::ARGUMENTS  => $this->arguments,
 				self::ACTION     => null,
-			);
+			];
 
 			if( !empty($regs['action']) && ctype_alpha($regs['action']) ) {
 				$return['action'] = $regs['action'];
@@ -53,4 +53,4 @@ class CliRouter extends AbstractRouter {
 		return false;
 	}
 
-} 
+}

@@ -89,7 +89,7 @@ return PhpCsFixer\Config::create()
 				'statements' => [ 'continue', 'try', 'switch', 'die', 'exit', 'throw', 'return' ],
 			],
 
-			'no_superfluous_phpdoc_tags' => true,
+//			'no_superfluous_phpdoc_tags' => true,
 			'no_superfluous_elseif'      => true,
 
 			'no_useless_else' => true,

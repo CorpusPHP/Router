@@ -18,7 +18,7 @@ class HttpRuleRouter extends AbstractRouter implements ReversibleRouterInterface
 	 * @param string $root_namespace
 	 * @param array  $server The $_SERVER array - optional
 	 */
-	public function __construct( $root_namespace, $server = array() ) {
+	public function __construct( $root_namespace, $server = [] ) {
 		$this->server = $server;
 		parent::__construct($root_namespace);
 	}
@@ -26,7 +26,7 @@ class HttpRuleRouter extends AbstractRouter implements ReversibleRouterInterface
 	/**
 	 * @var array[]
 	 */
-	protected $rules = array();
+	protected $rules = [];
 
 	public function addRule( $rule, $route ) {
 		$route = $this->classNameC14N($route);
@@ -35,8 +35,8 @@ class HttpRuleRouter extends AbstractRouter implements ReversibleRouterInterface
 		$parts = preg_split($match, $rule);
 		preg_match_all($match, $rule, $matches);
 
-		$keys   = array();
-		$tokens = array();
+		$keys   = [];
+		$tokens = [];
 		foreach( $parts as $i => $part ) {
 			$tokens[] = $part;
 
@@ -49,10 +49,10 @@ class HttpRuleRouter extends AbstractRouter implements ReversibleRouterInterface
 					case 'd':
 					case 's':
 					case 'w':
-						$tokens[] = array( $name, $set );
+						$tokens[] = [ $name, $set ];
 						break;
 					case '':
-						$tokens[] = array( $name, 's' );
+						$tokens[] = [ $name, 's' ];
 						break;
 					default:
 						throw new InvalidRuleException('Unknown type ' . $matches['set'][$i], self::ERROR_UNKNOWN_TYPE);
@@ -66,27 +66,27 @@ class HttpRuleRouter extends AbstractRouter implements ReversibleRouterInterface
 			}
 		}
 
-		$this->rules[] = array(
+		$this->rules[] = [
 			'tokens' => $tokens,
 			'route'  => $route,
 			'keys'   => $keys,
-		);
+		];
 	}
 
 	protected function tokensToRegex( array $tokens ) {
 		$out   = '%^';
-		$trans = array(
+		$trans = [
 			'a' => '[a-zA-Z]+?',
 			'd' => '\d+',
 			's' => '\S+?',
 			'w' => '\w+?',
-		);
+		];
 
 		foreach( $tokens as $token ) {
 			if( is_array($token) && count($token) == 2 ) {
 				$name  = preg_quote($token[0], '%');
 				$match = $trans[$token[1]];
-				$out .= "(?P<{$name}>{$match})";
+				$out   .= "(?P<{$name}>{$match})";
 			} elseif( is_string($token) ) {
 				$out .= preg_quote($token, '%');
 			} else {
@@ -106,7 +106,7 @@ class HttpRuleRouter extends AbstractRouter implements ReversibleRouterInterface
 		$parts = parse_url($path);
 
 		$path = empty($parts['path']) ? '' : $parts['path'];
-		$args = empty($parts['query']) ? array() : $this->parseStr($parts['query']);
+		$args = empty($parts['query']) ? [] : $this->parseStr($parts['query']);
 
 		$path = $this->trimSlashes($path);
 
@@ -119,11 +119,11 @@ class HttpRuleRouter extends AbstractRouter implements ReversibleRouterInterface
 					$xargs[$key] = urldecode($matches[$key]);
 				}
 
-				$return = array(
+				$return = [
 					self::CONTROLLER => $rule['route'],
 					self::ACTION     => null,
 					self::OPTIONS    => $xargs,
-				);
+				];
 
 				if( !empty($xargs['_action']) ) {
 					$return[self::ACTION] = $xargs['_action'];
@@ -141,14 +141,14 @@ class HttpRuleRouter extends AbstractRouter implements ReversibleRouterInterface
 	}
 
 	/**
-	 * @param string|object $controller Instance or Relative 'admin\index' or absolute '\Controllers\www\admin\index'
+	 * @param object|string $controller Instance or Relative 'admin\index' or absolute '\Controllers\www\admin\index'
 	 * @param string|null   $action
 	 * @param array         $options
-	 * @return string
 	 * @throws \Corpus\Router\Exceptions\NonRoutableException
 	 * @throws \Corpus\Router\Exceptions\RouteGenerationFailedException
+	 * @return string
 	 */
-	public function generate( $controller, $action = null, array $options = array() ) {
+	public function generate( $controller, $action = null, array $options = [] ) {
 		$class_name = $this->classNameC14N($controller);
 
 		if( !$class_name ) {

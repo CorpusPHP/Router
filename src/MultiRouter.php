@@ -6,15 +6,13 @@ use Corpus\Router\Interfaces\RouterInterface;
 
 /**
  * MultiRouter
- *
- * @package Corpus\Router
  */
 class MultiRouter implements RouterInterface {
 
 	/**
 	 * @var RouterInterface[]
 	 */
-	protected $routers = array();
+	protected $routers = [];
 
 	/**
 	 * @param ... RouterInterface
@@ -50,7 +48,7 @@ class MultiRouter implements RouterInterface {
 	public function match( $path ) {
 		foreach( $this->routers as $router ) {
 			$match = $router->match($path);
-			
+
 			if( $match !== false ) {
 				return $match;
 			}
