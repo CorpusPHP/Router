@@ -4,19 +4,19 @@ namespace Corpus\Test\Router;
 
 use Corpus\Router\HttpRouter;
 
-class HttpRouterTest extends \PHPUnit_Framework_TestCase {
+class HttpRouterTest extends \PHPUnit\Framework\TestCase {
 
-	protected $namespaces = array( '\\Foo', '\\Foo\\Bar', '\\Foo\\Bar\\ClassName', '\\Fun\\With_Underscores', '\\日本の\\しい' );
+	protected $namespaces = [ '\\Foo', '\\Foo\\Bar', '\\Foo\\Bar\\ClassName', '\\Fun\\With_Underscores', '\\日本の\\しい' ];
 
 	public function testMatch() {
 
-		$server_arrays = array( array(), array( 'REQUEST_METHOD' => 'post' ), array( 'REQUEST_METHOD' => 'Get' ) );
-		$query_strings = array(
-			''                  => array(),
-			'?bob=ted'          => array( 'bob' => 'ted' ),
-			'?bob[]=1&bob[3]=5' => array( 'bob' => array( 1, 3 => 5 ) ),
-			'?what=0'           => array( 'what' => 0 ),
-		);
+		$server_arrays = [ [], [ 'REQUEST_METHOD' => 'post' ], [ 'REQUEST_METHOD' => 'Get' ] ];
+		$query_strings = [
+			''                  => [],
+			'?bob=ted'          => [ 'bob' => 'ted' ],
+			'?bob[]=1&bob[3]=5' => [ 'bob' => [ 1, 3 => 5 ] ],
+			'?what=0'           => [ 'what' => 0 ],
+		];
 
 		foreach( $this->namespaces as $ns ) {
 			foreach( $server_arrays as $server_array ) {
@@ -27,31 +27,31 @@ class HttpRouterTest extends \PHPUnit_Framework_TestCase {
 
 					$this->assertSame(false, $router->match('' . $query_string));
 
-					$result = array(
+					$result = [
 						'controller' => $ns . '\\index',
 						'options'    => $query_data,
 						'action'     => null,
-					);
+					];
 					if( $rm ) {
 						$result['request']['method'] = $rm;
 					}
 					$this->assertEquals($result, $router->match('/' . $query_string));
 
-					$result = array(
+					$result = [
 						'controller' => $ns . '\\Baz\\Qux',
 						'options'    => $query_data,
 						'action'     => null,
-					);
+					];
 					if( $rm ) {
 						$result['request']['method'] = $rm;
 					}
 					$this->assertEquals($result, $router->match('/Baz/Qux' . $query_string));
 
-					$result = array(
+					$result = [
 						'controller' => $ns . '\\Baz\\Qux',
 						'options'    => $query_data,
 						'action'     => 'What',
-					);
+					];
 					if( $rm ) {
 						$result['request']['method'] = $rm;
 					}
@@ -76,7 +76,7 @@ class HttpRouterTest extends \PHPUnit_Framework_TestCase {
 			$this->assertSame('/Monkeys/Love/Long/Paths:list', $router->generate($ns . '\\Monkeys\\Love\\Long\\Paths', 'list'));
 
 			$this->assertSame('/Monkeys/Love/Long/Paths:list?what=butt&crap%5Banimal%5D%5Btype%5D=fish',
-				$router->generate($ns . '\\Monkeys\\Love\\Long\\Paths', 'list', array( 'what' => 'butt', 'crap' => array( 'animal' => array( 'type' => 'fish' ) ) )));
+				$router->generate($ns . '\\Monkeys\\Love\\Long\\Paths', 'list', [ 'what' => 'butt', 'crap' => [ 'animal' => [ 'type' => 'fish' ] ] ]));
 
 			// Test Relative
 			$this->assertSame('/Monkey', $router->generate('Monkey'));
@@ -86,22 +86,20 @@ class HttpRouterTest extends \PHPUnit_Framework_TestCase {
 			$this->assertSame('/Monkeys/Love/Long/Paths:list', $router->generate('Monkeys\\Love\\Long\\Paths', 'list'));
 
 			$this->assertSame('/Monkeys/Love/Long/Paths:list?what=butt&crap%5Banimal%5D%5Btype%5D=fish',
-				$router->generate('Monkeys\\Love\\Long\\Paths', 'list', array( 'what' => 'butt', 'crap' => array( 'animal' => array( 'type' => 'fish' ) ) )));
+				$router->generate('Monkeys\\Love\\Long\\Paths', 'list', [ 'what' => 'butt', 'crap' => [ 'animal' => [ 'type' => 'fish' ] ] ]));
 		}
 	}
 
-	/**
-	 * @expectedException \Corpus\Router\Exceptions\NonRoutableException
-	 */
 	public function testGenerateException() {
+		$this->expectException(\Corpus\Router\Exceptions\NonRoutableException::class);
+
 		$router = new HttpRouter('\\Foo');
 		$router->generate(7);
 	}
 
-	/**
-	 * @expectedException \Corpus\Router\Exceptions\NonRoutableException
-	 */
 	public function testGenerateException2() {
+		$this->expectException(\Corpus\Router\Exceptions\NonRoutableException::class);
+
 		$router = new HttpRouter('\\Foo');
 		$router->generate('\\Bar\\Loving');
 	}

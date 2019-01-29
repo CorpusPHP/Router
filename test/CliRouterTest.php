@@ -4,9 +4,9 @@ namespace Corpus\Test\Router;
 
 use Corpus\Router\CliRouter;
 
-class CliRouterTest extends \PHPUnit_Framework_TestCase {
+class CliRouterTest extends \PHPUnit\Framework\TestCase {
 
-	protected $namespaces = array( '\\Foo', '\\Foo\\Bar', '\\Foo\\Bar\\ClassName', '\\Fun\\With_Underscores', '\\日本の\\しい' );
+	protected $namespaces = [ '\\Foo', '\\Foo\\Bar', '\\Foo\\Bar\\ClassName', '\\Fun\\With_Underscores', '\\日本の\\しい' ];
 
 	public function testMatch() {
 
@@ -15,45 +15,45 @@ class CliRouterTest extends \PHPUnit_Framework_TestCase {
 
 			$this->assertSame(false, $router->match(''));
 
-			$this->assertEquals(array(
+			$this->assertEquals([
 					'controller' => $ns . '\\index',
 					'action'     => null,
-					'arguments'  => array(),
-				),
+					'arguments'  => [],
+				],
 				$router->match('/')
 			);
 
 			$this->assertEquals(false, $router->match('/:myAction'));
 
-			$this->assertEquals(array(
+			$this->assertEquals([
 					'controller' => $ns . '\\help',
 					'action'     => null,
-					'arguments'  => array(),
-				),
+					'arguments'  => [],
+				],
 				$router->match('help')
 			);
 
-			$this->assertEquals(array(
+			$this->assertEquals([
 					'controller' => $ns . '\\help',
 					'action'     => 'otherAction',
-					'arguments'  => array(),
-				),
+					'arguments'  => [],
+				],
 				$router->match('help:otherAction')
 			);
 
-			$this->assertEquals(array(
+			$this->assertEquals([
 					'controller' => $ns . '\\help\\i\\am\\stuck',
 					'action'     => null,
-					'arguments'  => array(),
-				),
+					'arguments'  => [],
+				],
 				$router->match('help/i/am/stuck')
 			);
 
-			$this->assertEquals(array(
+			$this->assertEquals([
 					'controller' => $ns . '\\help\\i\\am\\stuck',
 					'action'     => 'funkyfuntimes',
-					'arguments'  => array(),
-				),
+					'arguments'  => [],
+				],
 				$router->match('help/i/am/stuck:funkyfuntimes')
 			);
 
@@ -67,4 +67,3 @@ class CliRouterTest extends \PHPUnit_Framework_TestCase {
 	}
 
 }
- 

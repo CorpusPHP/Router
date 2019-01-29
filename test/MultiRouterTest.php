@@ -4,7 +4,7 @@ namespace Corpus\Test\Router;
 
 use Corpus\Router\MultiRouter;
 
-class MultiRouterTest extends \PHPUnit_Framework_TestCase {
+class MultiRouterTest extends \PHPUnit\Framework\TestCase {
 
 	public function testEmpty() {
 		$router = new MultiRouter();
@@ -18,7 +18,7 @@ class MultiRouterTest extends \PHPUnit_Framework_TestCase {
 		/**
 		 * @var $ri1 \PHPUnit_Framework_MockObject_MockObject|\Corpus\Router\Interfaces\RouterInterface
 		 */
-		$ri1 = $this->getMock('\Corpus\Router\Interfaces\RouterInterface');
+		$ri1 = $this->createMock('\Corpus\Router\Interfaces\RouterInterface');
 
 		$ri1->expects($this->exactly(3))->method('match')->with(
 			$this->equalTo('index.html')
@@ -39,9 +39,9 @@ class MultiRouterTest extends \PHPUnit_Framework_TestCase {
 		 * @var $ri2 \PHPUnit_Framework_MockObject_MockObject|\Corpus\Router\Interfaces\RouterInterface
 		 * @var $ri3 \PHPUnit_Framework_MockObject_MockObject|\Corpus\Router\Interfaces\RouterInterface
 		 */
-		$ri1 = $this->getMock('\Corpus\Router\Interfaces\RouterInterface');
-		$ri2 = $this->getMock('\Corpus\Router\Interfaces\RouterInterface');
-		$ri3 = $this->getMock('\Corpus\Router\Interfaces\RouterInterface');
+		$ri1 = $this->createMock('\Corpus\Router\Interfaces\RouterInterface');
+		$ri2 = $this->createMock('\Corpus\Router\Interfaces\RouterInterface');
+		$ri3 = $this->createMock('\Corpus\Router\Interfaces\RouterInterface');
 
 		$ri1->expects($this->once())->method('match')->with(
 			$this->equalTo('index.html')
@@ -49,7 +49,7 @@ class MultiRouterTest extends \PHPUnit_Framework_TestCase {
 
 		$ri2->expects($this->once())->method('match')->with(
 			$this->equalTo('index.html')
-		)->will($this->returnValue(array( true )));
+		)->will($this->returnValue([ true ]));
 
 		$ri3->expects($this->never())->method('match');
 
@@ -57,7 +57,7 @@ class MultiRouterTest extends \PHPUnit_Framework_TestCase {
 		$router->addRouter($ri2);
 		$router->addRouter($ri3);
 
-		$this->assertSame(array( true ), $router->match('index.html'));
+		$this->assertSame([ true ], $router->match('index.html'));
 	}
 
 	public function testConstruct() {
@@ -66,11 +66,11 @@ class MultiRouterTest extends \PHPUnit_Framework_TestCase {
 		 * @var $ri2 \PHPUnit_Framework_MockObject_MockObject|\Corpus\Router\Interfaces\RouterInterface
 		 * @var $ri3 \PHPUnit_Framework_MockObject_MockObject|\Corpus\Router\Interfaces\RouterInterface
 		 */
-		$ri1 = $this->getMock('\Corpus\Router\Interfaces\RouterInterface');
-		$ri2 = $this->getMock('\Corpus\Router\Interfaces\RouterInterface');
-		$ri3 = $this->getMock('\Corpus\Router\Interfaces\RouterInterface');
+		$ri1 = $this->createMock('\Corpus\Router\Interfaces\RouterInterface');
+		$ri2 = $this->createMock('\Corpus\Router\Interfaces\RouterInterface');
+		$ri3 = $this->createMock('\Corpus\Router\Interfaces\RouterInterface');
 
 		$router = new MultiRouter($ri1, $ri2, $ri3);
-		$this->assertSame(array( $ri1, $ri2, $ri3 ), $router->getRouters());
+		$this->assertSame([ $ri1, $ri2, $ri3 ], $router->getRouters());
 	}
 }
