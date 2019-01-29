@@ -26,7 +26,7 @@ class CliRouter extends AbstractRouter {
 
 		if( preg_match(
 			'%^
-				# offical namespace/class_name regex
+				# official namespace/class_name regex
 				(?P<namespace>(?:[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*/)*)
 				(?P<class_name>[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*)
 				(?::(?P<action>[a-zA-Z]+))?
