@@ -16,7 +16,8 @@ class MultiReversibleRouterTest extends \PHPUnit\Framework\TestCase {
 		$router->generate('index');
 	}
 
-	public function testMatch_None() {
+	public function testMatch_None() : void {
+
 		$this->expectException(\Corpus\Router\Exceptions\RouteGenerationFailedException::class);
 
 		$router = new MultiReversibleRouter;
@@ -36,10 +37,11 @@ class MultiReversibleRouterTest extends \PHPUnit\Framework\TestCase {
 		$router->addRouter($ri1);
 		$router->addRouter($ri1);
 
-		$this->assertFalse($router->generate('index', 'bbq', [ 'foo' => 'bar' ]));
+		// Throws RouteGenerationFailedException
+		$router->generate('index', 'bbq', [ 'foo' => 'bar' ]);
 	}
 
-	public function testMatch_MidStream() {
+	public function testMatch_MidStream() : void {
 		$router = new MultiReversibleRouter;
 
 		/**

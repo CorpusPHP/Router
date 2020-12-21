@@ -23,7 +23,7 @@ class CliRouterTest extends \PHPUnit\Framework\TestCase {
 				$router->match('/')
 			);
 
-			$this->assertEquals(false, $router->match('/:myAction'));
+			$this->assertNull($router->match('/:myAction'));
 
 			$this->assertEquals([
 					'controller' => $ns . '\\help',
@@ -57,10 +57,8 @@ class CliRouterTest extends \PHPUnit\Framework\TestCase {
 				$router->match('help/i/am/stuck:funkyfuntimes')
 			);
 
-			$this->assertEquals(false, $router->match('/Baz/Qux.json'));
-
-			$this->assertEquals(false, $router->match('/Baz/Qux.json:What'));
-
+			$this->assertNull($router->match('/Baz/Qux.json'));
+			$this->assertNull($router->match('/Baz/Qux.json:What'));
 			$this->assertNull($router->match('/Baz/Qux.json:10')); //So we don't confuse the colon syntax with ports
 		}
 
