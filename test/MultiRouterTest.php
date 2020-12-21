@@ -16,7 +16,7 @@ class MultiRouterTest extends \PHPUnit\Framework\TestCase {
 		$router = new MultiRouter;
 
 		/**
-		 * @var $ri1 \PHPUnit_Framework_MockObject_MockObject|\Corpus\Router\Interfaces\RouterInterface
+		 * @var \Corpus\Router\Interfaces\RouterInterface|\PHPUnit_Framework_MockObject_MockObject $ri1
 		 */
 		$ri1 = $this->createMock('\Corpus\Router\Interfaces\RouterInterface');
 
@@ -35,9 +35,9 @@ class MultiRouterTest extends \PHPUnit\Framework\TestCase {
 		$router = new MultiRouter;
 
 		/**
-		 * @var $ri1 \PHPUnit_Framework_MockObject_MockObject|\Corpus\Router\Interfaces\RouterInterface
-		 * @var $ri2 \PHPUnit_Framework_MockObject_MockObject|\Corpus\Router\Interfaces\RouterInterface
-		 * @var $ri3 \PHPUnit_Framework_MockObject_MockObject|\Corpus\Router\Interfaces\RouterInterface
+		 * @var \Corpus\Router\Interfaces\RouterInterface|\PHPUnit_Framework_MockObject_MockObject $ri1
+		 * @var \Corpus\Router\Interfaces\RouterInterface|\PHPUnit_Framework_MockObject_MockObject $ri2
+		 * @var \Corpus\Router\Interfaces\RouterInterface|\PHPUnit_Framework_MockObject_MockObject $ri3
 		 */
 		$ri1 = $this->createMock('\Corpus\Router\Interfaces\RouterInterface');
 		$ri2 = $this->createMock('\Corpus\Router\Interfaces\RouterInterface');
@@ -62,9 +62,9 @@ class MultiRouterTest extends \PHPUnit\Framework\TestCase {
 
 	public function testConstruct() {
 		/**
-		 * @var $ri1 \PHPUnit_Framework_MockObject_MockObject|\Corpus\Router\Interfaces\RouterInterface
-		 * @var $ri2 \PHPUnit_Framework_MockObject_MockObject|\Corpus\Router\Interfaces\RouterInterface
-		 * @var $ri3 \PHPUnit_Framework_MockObject_MockObject|\Corpus\Router\Interfaces\RouterInterface
+		 * @var \Corpus\Router\Interfaces\RouterInterface|\PHPUnit_Framework_MockObject_MockObject $ri1
+		 * @var \Corpus\Router\Interfaces\RouterInterface|\PHPUnit_Framework_MockObject_MockObject $ri2
+		 * @var \Corpus\Router\Interfaces\RouterInterface|\PHPUnit_Framework_MockObject_MockObject $ri3
 		 */
 		$ri1 = $this->createMock('\Corpus\Router\Interfaces\RouterInterface');
 		$ri2 = $this->createMock('\Corpus\Router\Interfaces\RouterInterface');

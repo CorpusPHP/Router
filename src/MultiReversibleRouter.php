@@ -27,13 +27,11 @@ class MultiReversibleRouter extends MultiRouter implements ReversibleRouterInter
 	 *
 	 * @param object|string $controller Instance or Relative 'admin\index' or absolute '\Controllers\www\admin\index'
 	 * @param string|null   $action
-	 * @param array         $options
-	 * @return string
 	 * @throws \Corpus\Router\Exceptions\RouteGenerationFailedException
 	 */
 	public function generate( $controller, $action = null, array $options = [] ) : string {
 		/**
-		 * @var $router ReversibleRouterInterface
+		 * @var ReversibleRouterInterface $router
 		 */
 		foreach( $this->routers as $router ) {
 			try {

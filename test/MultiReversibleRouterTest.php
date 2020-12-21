@@ -21,7 +21,7 @@ class MultiReversibleRouterTest extends \PHPUnit\Framework\TestCase {
 		$router = new MultiReversibleRouter;
 
 		/**
-		 * @var $ri1 \PHPUnit_Framework_MockObject_MockObject|\Corpus\Router\Interfaces\ReversibleRouterInterface
+		 * @var \Corpus\Router\Interfaces\ReversibleRouterInterface|\PHPUnit_Framework_MockObject_MockObject $ri1
 		 */
 		$ri1 = $this->createMock('\Corpus\Router\Interfaces\ReversibleRouterInterface');
 
@@ -42,9 +42,9 @@ class MultiReversibleRouterTest extends \PHPUnit\Framework\TestCase {
 		$router = new MultiReversibleRouter;
 
 		/**
-		 * @var $ri1 \PHPUnit_Framework_MockObject_MockObject|\Corpus\Router\Interfaces\ReversibleRouterInterface
-		 * @var $ri2 \PHPUnit_Framework_MockObject_MockObject|\Corpus\Router\Interfaces\ReversibleRouterInterface
-		 * @var $ri3 \PHPUnit_Framework_MockObject_MockObject|\Corpus\Router\Interfaces\ReversibleRouterInterface
+		 * @var \Corpus\Router\Interfaces\ReversibleRouterInterface|\PHPUnit_Framework_MockObject_MockObject $ri1
+		 * @var \Corpus\Router\Interfaces\ReversibleRouterInterface|\PHPUnit_Framework_MockObject_MockObject $ri2
+		 * @var \Corpus\Router\Interfaces\ReversibleRouterInterface|\PHPUnit_Framework_MockObject_MockObject $ri3
 		 */
 		$ri1 = $this->createMock('\Corpus\Router\Interfaces\ReversibleRouterInterface');
 		$ri2 = $this->createMock('\Corpus\Router\Interfaces\ReversibleRouterInterface');
@@ -73,9 +73,9 @@ class MultiReversibleRouterTest extends \PHPUnit\Framework\TestCase {
 
 	public function testConstruct() {
 		/**
-		 * @var $ri1 \PHPUnit_Framework_MockObject_MockObject|\Corpus\Router\Interfaces\ReversibleRouterInterface
-		 * @var $ri2 \PHPUnit_Framework_MockObject_MockObject|\Corpus\Router\Interfaces\ReversibleRouterInterface
-		 * @var $ri3 \PHPUnit_Framework_MockObject_MockObject|\Corpus\Router\Interfaces\ReversibleRouterInterface
+		 * @var \Corpus\Router\Interfaces\ReversibleRouterInterface|\PHPUnit_Framework_MockObject_MockObject $ri1
+		 * @var \Corpus\Router\Interfaces\ReversibleRouterInterface|\PHPUnit_Framework_MockObject_MockObject $ri2
+		 * @var \Corpus\Router\Interfaces\ReversibleRouterInterface|\PHPUnit_Framework_MockObject_MockObject $ri3
 		 */
 		$ri1 = $this->createMock('\Corpus\Router\Interfaces\ReversibleRouterInterface');
 		$ri2 = $this->createMock('\Corpus\Router\Interfaces\ReversibleRouterInterface');

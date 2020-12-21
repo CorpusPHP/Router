@@ -14,10 +14,6 @@ class CliRouter extends AbstractRouter {
 		parent::__construct($root_namespace);
 	}
 
-	/**
-	 * @param string $path
-	 * @return array|null
-	 */
 	public function match( string $path ) : ?array {
 		if( substr($path, -1) == '/' ) {
 			$path .= 'index';

@@ -9,9 +9,7 @@ use Corpus\Router\Interfaces\RouterInterface;
  */
 class MultiRouter implements RouterInterface {
 
-	/**
-	 * @var RouterInterface[]
-	 */
+	/** @var RouterInterface[] */
 	protected $routers = [];
 
 	public function __construct() {
@@ -22,8 +20,6 @@ class MultiRouter implements RouterInterface {
 
 	/**
 	 * Add a router to the queue
-	 *
-	 * @param \Corpus\Router\Interfaces\RouterInterface $router
 	 */
 	public function addRouter( RouterInterface $router ) {
 		$this->routers[] = $router;
@@ -38,9 +34,6 @@ class MultiRouter implements RouterInterface {
 
 	/**
 	 * Loops over routers in the order they were added until a match is found.
-	 *
-	 * @param string $path
-	 * @return array|null
 	 */
 	public function match( string $path ) : ?array {
 		foreach( $this->routers as $router ) {

@@ -6,9 +6,7 @@ use Corpus\Router\Interfaces\RouterInterface;
 
 abstract class AbstractRouter implements RouterInterface {
 
-	/**
-	 * @var string
-	 */
+	/** @var string */
 	protected $namespace;
 
 	/**

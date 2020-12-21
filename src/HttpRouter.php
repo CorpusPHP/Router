@@ -11,7 +11,7 @@ class HttpRouter extends AbstractRouter implements ReversibleRouterInterface {
 
 	/**
 	 * @param string $root_namespace
-	 * @param array  $server The $_SERVER array - optional
+	 * @param array  $server         The $_SERVER array - optional
 	 */
 	public function __construct( $root_namespace, $server = [] ) {
 		$this->server = $server;
@@ -19,10 +19,6 @@ class HttpRouter extends AbstractRouter implements ReversibleRouterInterface {
 		parent::__construct($root_namespace);
 	}
 
-	/**
-	 * @param string $path
-	 * @return array|null
-	 */
 	public function match( string $path ) : ?array {
 		$parts = parse_url($path);
 
@@ -74,8 +70,6 @@ class HttpRouter extends AbstractRouter implements ReversibleRouterInterface {
 	/**
 	 * @param object|string $controller Instance or Relative 'admin\index' or absolute '\Controllers\www\admin\index'
 	 * @param string|null   $action
-	 * @param array         $options
-	 * @return string
 	 * @throws \Corpus\Router\Exceptions\NonRoutableException
 	 */
 	public function generate( $controller, $action = null, array $options = [] ) : string {

@@ -16,7 +16,7 @@ class HttpRuleRouter extends AbstractRouter implements ReversibleRouterInterface
 
 	/**
 	 * @param string $root_namespace
-	 * @param array  $server The $_SERVER array - optional
+	 * @param array  $server         The $_SERVER array - optional
 	 */
 	public function __construct( $root_namespace, $server = [] ) {
 		$this->server = $server;
@@ -24,9 +24,7 @@ class HttpRuleRouter extends AbstractRouter implements ReversibleRouterInterface
 		parent::__construct($root_namespace);
 	}
 
-	/**
-	 * @var array[]
-	 */
+	/** @var array[] */
 	protected $rules = [];
 
 	public function addRule( $rule, $route ) {
@@ -98,10 +96,6 @@ class HttpRuleRouter extends AbstractRouter implements ReversibleRouterInterface
 		return $out . '$%';
 	}
 
-	/**
-	 * @param string $path
-	 * @return array|null
-	 */
 	public function match( string $path ) : ?array {
 		$parts = parse_url($path);
 
@@ -143,8 +137,6 @@ class HttpRuleRouter extends AbstractRouter implements ReversibleRouterInterface
 	/**
 	 * @param object|string $controller Instance or Relative 'admin\index' or absolute '\Controllers\www\admin\index'
 	 * @param string|null   $action
-	 * @param array         $options
-	 * @return string
 	 * @throws \Corpus\Router\Exceptions\NonRoutableException
 	 * @throws \Corpus\Router\Exceptions\RouteGenerationFailedException
 	 */
@@ -206,7 +198,6 @@ class HttpRuleRouter extends AbstractRouter implements ReversibleRouterInterface
 	/**
 	 * Validate that a potential value matches against a token
 	 *
-	 * @param array  $token
 	 * @param string $value
 	 * @return bool
 	 */
