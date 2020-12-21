@@ -12,54 +12,54 @@ class HttpRuleRouterTest extends \PHPUnit\Framework\TestCase {
 
 	public function testMatch() : void {
 
-		$server_arrays = [ [], [ 'REQUEST_METHOD' => 'post' ], [ 'REQUEST_METHOD' => 'Get' ] ];
-		$query_strings = [ '' => [], '?bob=ted' => [ 'bob' => 'ted' ], '?bob[]=1&bob[3]=5' => [ 'bob' => [ 1, 3 => 5 ] ] ];
+		$serverArrays = [ [], [ 'REQUEST_METHOD' => 'post' ], [ 'REQUEST_METHOD' => 'Get' ] ];
+		$queryStrings = [ '' => [], '?bob=ted' => [ 'bob' => 'ted' ], '?bob[]=1&bob[3]=5' => [ 'bob' => [ 1, 3 => 5 ] ] ];
 
 		foreach( $this->namespaces as $ns ) {
-			foreach( $server_arrays as $server_array ) {
-				foreach( $query_strings as $query_string => $query_data ) {
-					$router = new HttpRuleRouter($ns, $server_array);
+			foreach( $serverArrays as $serverArray ) {
+				foreach( $queryStrings as $queryString => $queryData ) {
+					$router = new HttpRuleRouter($ns, $serverArray);
 					$router->addRule('what/{opt}/butt', 'index');
 					$router->addRule('who/{_action}/what', 'login\\funkytown');
 					$router->addRule('cat/{dog|d}/bar', 'login\\funkytown');
 
-					$rm = isset($server_array['REQUEST_METHOD']) ? strtoupper($server_array['REQUEST_METHOD']) : null;
+					$rm = isset($serverArray['REQUEST_METHOD']) ? strtoupper($serverArray['REQUEST_METHOD']) : null;
 
-					$this->assertNull($router->match('' . $query_string));
+					$this->assertNull($router->match('' . $queryString));
 
 					$result = [
 						'controller' => $ns . '\\index',
-						'options'    => array_merge([ 'opt' => 'the' ], $query_data),
+						'options'    => array_merge([ 'opt' => 'the' ], $queryData),
 						'action'     => null,
 					];
 					if( $rm ) {
 						$result['request']['method'] = $rm;
 					}
 
-					$this->assertEquals($result, $router->match('what/the/butt' . $query_string));
+					$this->assertEquals($result, $router->match('what/the/butt' . $queryString));
 
 					$result = [
 						'controller' => $ns . '\\login\\funkytown',
-						'options'    => array_merge([ '_action' => 'myAction' ], $query_data),
+						'options'    => array_merge([ '_action' => 'myAction' ], $queryData),
 						'action'     => 'myAction',
 					];
 					if( $rm ) {
 						$result['request']['method'] = $rm;
 					}
 
-					$this->assertEquals($result, $router->match('who/myAction/what' . $query_string));
+					$this->assertEquals($result, $router->match('who/myAction/what' . $queryString));
 
 					$result = [
 						'controller' => $ns . '\\login\\funkytown',
-						'options'    => array_merge([ 'dog' => 10 ], $query_data),
+						'options'    => array_merge([ 'dog' => 10 ], $queryData),
 						'action'     => null,
 					];
 					if( $rm ) {
 						$result['request']['method'] = $rm;
 					}
 
-					$this->assertEquals($result, $router->match('cat/10/bar' . $query_string));
-					$this->assertNull($router->match('cat/string/bar' . $query_string));
+					$this->assertEquals($result, $router->match('cat/10/bar' . $queryString));
+					$this->assertNull($router->match('cat/string/bar' . $queryString));
 				}
 			}
 		}

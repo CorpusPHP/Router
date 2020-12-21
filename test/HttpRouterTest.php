@@ -10,8 +10,8 @@ class HttpRouterTest extends \PHPUnit\Framework\TestCase {
 
 	public function testMatch() : void {
 
-		$server_arrays = [ [], [ 'REQUEST_METHOD' => 'post' ], [ 'REQUEST_METHOD' => 'Get' ] ];
-		$query_strings = [
+		$serverArrays = [ [], [ 'REQUEST_METHOD' => 'post' ], [ 'REQUEST_METHOD' => 'Get' ] ];
+		$queryStrings = [
 			''                  => [],
 			'?bob=ted'          => [ 'bob' => 'ted' ],
 			'?bob[]=1&bob[3]=5' => [ 'bob' => [ 1, 3 => 5 ] ],
@@ -19,48 +19,48 @@ class HttpRouterTest extends \PHPUnit\Framework\TestCase {
 		];
 
 		foreach( $this->namespaces as $ns ) {
-			foreach( $server_arrays as $server_array ) {
-				foreach( $query_strings as $query_string => $query_data ) {
-					$router = new HttpRouter($ns, $server_array);
+			foreach( $serverArrays as $serverArray ) {
+				foreach( $queryStrings as $queryString => $queryData ) {
+					$router = new HttpRouter($ns, $serverArray);
 
-					$rm = isset($server_array['REQUEST_METHOD']) ? strtoupper($server_array['REQUEST_METHOD']) : null;
+					$rm = isset($serverArray['REQUEST_METHOD']) ? strtoupper($serverArray['REQUEST_METHOD']) : null;
 
-					$this->assertNull($router->match('' . $query_string));
+					$this->assertNull($router->match('' . $queryString));
 
 					$result = [
 						'controller' => $ns . '\\index',
-						'options'    => $query_data,
+						'options'    => $queryData,
 						'action'     => null,
 					];
 					if( $rm ) {
 						$result['request']['method'] = $rm;
 					}
 
-					$this->assertEquals($result, $router->match('/' . $query_string));
+					$this->assertEquals($result, $router->match('/' . $queryString));
 
 					$result = [
 						'controller' => $ns . '\\Baz\\Qux',
-						'options'    => $query_data,
+						'options'    => $queryData,
 						'action'     => null,
 					];
 					if( $rm ) {
 						$result['request']['method'] = $rm;
 					}
 
-					$this->assertEquals($result, $router->match('/Baz/Qux' . $query_string));
+					$this->assertEquals($result, $router->match('/Baz/Qux' . $queryString));
 
 					$result = [
 						'controller' => $ns . '\\Baz\\Qux',
-						'options'    => $query_data,
+						'options'    => $queryData,
 						'action'     => 'What',
 					];
 					if( $rm ) {
 						$result['request']['method'] = $rm;
 					}
 
-					$this->assertEquals($result, $router->match('/Baz/Qux:What' . $query_string));
+					$this->assertEquals($result, $router->match('/Baz/Qux:What' . $queryString));
 
-					$this->assertNull($router->match('/Baz/Qux.json:10' . $query_string)); //So we don't confuse the colon syntax with ports
+					$this->assertNull($router->match('/Baz/Qux.json:10' . $queryString)); //So we don't confuse the colon syntax with ports
 				}
 			}
 		}

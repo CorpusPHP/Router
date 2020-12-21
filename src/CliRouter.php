@@ -32,10 +32,10 @@ class CliRouter extends AbstractRouter {
 		) {
 			$parts = explode('/', $regs['namespace'] . $regs['class_name']);
 			array_unshift($parts, $this->namespace);
-			$class_name = '\\' . implode('\\', $parts);
+			$className = '\\' . implode('\\', $parts);
 
 			$return = [
-				self::CONTROLLER => $class_name,
+				self::CONTROLLER => $className,
 				self::ARGUMENTS  => $this->arguments,
 				self::ACTION     => null,
 			];
