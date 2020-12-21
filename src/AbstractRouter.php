@@ -21,7 +21,7 @@ abstract class AbstractRouter implements RouterInterface {
 	}
 
 	/**
-	 * Return the canonical namespace prefix
+	 * @return string The canonical namespace prefix
 	 */
 	public function getNamespace() : string {
 		return $this->namespace;
