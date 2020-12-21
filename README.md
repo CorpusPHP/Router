@@ -2,7 +2,8 @@
 
 [![Latest Stable Version](https://poser.pugx.org/corpus/router/version)](https://packagist.org/packages/corpus/router)
 [![License](https://poser.pugx.org/corpus/router/license)](https://packagist.org/packages/corpus/router)
-[![Build Status](https://travis-ci.org/CorpusPHP/Router.svg?branch=master)](https://travis-ci.org/CorpusPHP/Router)
+[![Build Status](https://github.com/CorpusPHP/Router/workflows/CI/badge.svg?)](https://github.com/CorpusPHP/Router/actions?query=workflow%3ACI)
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/CorpusPHP/Router/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/CorpusPHP/Router)
 
 
 A Simple Collection of Routers
@@ -31,7 +32,6 @@ require __DIR__ . '/../vendor/autoload.php';
 // $_SERVER => ['REQUEST_METHOD' => [ 'method' => 'POST' ]]
 $router = new \Corpus\Router\HttpRouter('\\Corpus\\Controllers', $_SERVER);
 
-
 $route = $router->match('test/controller:action');
 
 // $route =
@@ -42,9 +42,7 @@ $route = $router->match('test/controller:action');
 //		'request'    => [ 'method' => 'POST' ],
 //	]
 
-
-# ----------------
-
+// ----------------
 
 $route = $router->match('test/controller?query=whatwhat');
 
@@ -56,33 +54,25 @@ $route = $router->match('test/controller?query=whatwhat');
 //		'request'    => [ 'method' => 'POST' ],
 //	]
 
-
-# ----------------
-
+// ----------------
 
 $route = $router->match($_SERVER['REQUEST_URI']);
 
 // $route = Current Request
 
-
-# ----------------
-
+// ----------------
 
 $url = $router->generate('myNamespace\\admin', 'index');
 
 // $url = '/myNamespace/admin:index'
 
-
-# ----------------
-
+// ----------------
 
 $url = $router->generate('\\Corpus\\Controllers\\myNamespace\\admin', 'index');
 
 // $url = '/myNamespace/admin:index'
 
-
-# ----------------
-
+// ----------------
 
 try {
 	$url = $router->generate('\\Invalid\\Absolute\\Controller', 'index');
@@ -91,7 +81,6 @@ try {
 }
 
 // $url = 'fail'
-
 
 ```
 

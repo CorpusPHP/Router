@@ -5,7 +5,6 @@ require __DIR__ . '/../vendor/autoload.php';
 // $_SERVER => ['REQUEST_METHOD' => [ 'method' => 'POST' ]]
 $router = new \Corpus\Router\HttpRouter('\\Corpus\\Controllers', $_SERVER);
 
-
 $route = $router->match('test/controller:action');
 
 // $route =
@@ -16,9 +15,7 @@ $route = $router->match('test/controller:action');
 //		'request'    => [ 'method' => 'POST' ],
 //	]
 
-
-# ----------------
-
+// ----------------
 
 $route = $router->match('test/controller?query=whatwhat');
 
@@ -30,33 +27,25 @@ $route = $router->match('test/controller?query=whatwhat');
 //		'request'    => [ 'method' => 'POST' ],
 //	]
 
-
-# ----------------
-
+// ----------------
 
 $route = $router->match($_SERVER['REQUEST_URI']);
 
 // $route = Current Request
 
-
-# ----------------
-
+// ----------------
 
 $url = $router->generate('myNamespace\\admin', 'index');
 
 // $url = '/myNamespace/admin:index'
 
-
-# ----------------
-
+// ----------------
 
 $url = $router->generate('\\Corpus\\Controllers\\myNamespace\\admin', 'index');
 
 // $url = '/myNamespace/admin:index'
 
-
-# ----------------
-
+// ----------------
 
 try {
 	$url = $router->generate('\\Invalid\\Absolute\\Controller', 'index');
@@ -65,4 +54,3 @@ try {
 }
 
 // $url = 'fail'
-
