@@ -8,7 +8,7 @@ class HttpRouterTest extends \PHPUnit\Framework\TestCase {
 
 	protected $namespaces = [ '\\Foo', '\\Foo\\Bar', '\\Foo\\Bar\\ClassName', '\\Fun\\With_Underscores', '\\日本の\\しい' ];
 
-	public function testMatch() {
+	public function testMatch() : void {
 
 		$server_arrays = [ [], [ 'REQUEST_METHOD' => 'post' ], [ 'REQUEST_METHOD' => 'Get' ] ];
 		$query_strings = [
@@ -66,7 +66,7 @@ class HttpRouterTest extends \PHPUnit\Framework\TestCase {
 		}
 	}
 
-	public function testGenerate() {
+	public function testGenerate() : void {
 
 		foreach( $this->namespaces as $ns ) {
 			$router = new HttpRouter($ns);
@@ -93,21 +93,21 @@ class HttpRouterTest extends \PHPUnit\Framework\TestCase {
 		}
 	}
 
-	public function testGenerateException() {
+	public function testGenerateException() : void {
 		$this->expectException(\Corpus\Router\Exceptions\NonRoutableException::class);
 
 		$router = new HttpRouter('\\Foo');
 		$router->generate(7);
 	}
 
-	public function testGenerateException2() {
+	public function testGenerateException2() : void {
 		$this->expectException(\Corpus\Router\Exceptions\NonRoutableException::class);
 
 		$router = new HttpRouter('\\Foo');
 		$router->generate('\\Bar\\Loving');
 	}
 
-	public function testGetNamespace() {
+	public function testGetNamespace() : void {
 		$router = new HttpRouter('\\Foo\\Bar');
 		$this->assertEquals('Foo\\Bar', $router->getNamespace());
 

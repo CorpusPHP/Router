@@ -2,6 +2,7 @@
 
 namespace Corpus\Test\Router;
 
+use Corpus\Router\Exceptions\InvalidRuleException;
 use Corpus\Router\Exceptions\RouteGenerationFailedException;
 use Corpus\Router\HttpRuleRouter;
 
@@ -9,7 +10,7 @@ class HttpRuleRouterTest extends \PHPUnit\Framework\TestCase {
 
 	protected $namespaces = [ '\\Foo', '\\Foo\\Bar', '\\Foo\\Bar\\ClassName', '\\Fun\\With_Underscores', '\\日本の\\しい' ];
 
-	public function testMatch() {
+	public function testMatch() : void {
 
 		$server_arrays = [ [], [ 'REQUEST_METHOD' => 'post' ], [ 'REQUEST_METHOD' => 'Get' ] ];
 		$query_strings = [ '' => [], '?bob=ted' => [ 'bob' => 'ted' ], '?bob[]=1&bob[3]=5' => [ 'bob' => [ 1, 3 => 5 ] ] ];
@@ -64,7 +65,7 @@ class HttpRuleRouterTest extends \PHPUnit\Framework\TestCase {
 		}
 	}
 
-	public function testGenerate() {
+	public function testGenerate() : void {
 		foreach( $this->namespaces as $ns ) {
 			$router = new HttpRuleRouter($ns);
 
@@ -166,23 +167,23 @@ class HttpRuleRouterTest extends \PHPUnit\Framework\TestCase {
 		}
 	}
 
-	public function testAddRuleException() {
-		$this->expectException(\Corpus\Router\Exceptions\InvalidRuleException::class);
-		$this->expectExceptionCode(\Corpus\Router\HttpRuleRouter::ERROR_DUPLICATED_KEY);
+	public function testAddRuleException() : void {
+		$this->expectException(InvalidRuleException::class);
+		$this->expectExceptionCode(HttpRuleRouter::ERROR_DUPLICATED_KEY);
 
 		$router = new HttpRuleRouter('\\Foo');
 		$router->addRule('{what}/{what}', 'index');
 	}
 
-	public function testAddRuleException2() {
-		$this->expectException(\Corpus\Router\Exceptions\InvalidRuleException::class);
-		$this->expectExceptionCode(\Corpus\Router\HttpRuleRouter::ERROR_UNKNOWN_TYPE);
+	public function testAddRuleException2() : void {
+		$this->expectException(InvalidRuleException::class);
+		$this->expectExceptionCode(HttpRuleRouter::ERROR_UNKNOWN_TYPE);
 
 		$router = new HttpRuleRouter('\\Foo');
 		$router->addRule('{what|q}', 'index');
 	}
 
-	public function testGenerateException() {
+	public function testGenerateException() : void {
 		$this->expectException(\Corpus\Router\Exceptions\NonRoutableException::class);
 
 		$router = new HttpRuleRouter('\\Foo');

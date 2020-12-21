@@ -8,7 +8,7 @@ class CliRouterTest extends \PHPUnit\Framework\TestCase {
 
 	protected $namespaces = [ '\\Foo', '\\Foo\\Bar', '\\Foo\\Bar\\ClassName', '\\Fun\\With_Underscores', '\\日本の\\しい' ];
 
-	public function testMatch() {
+	public function testMatch() : void {
 
 		foreach( $this->namespaces as $ns ) {
 			$router = new CliRouter($ns);
