@@ -3,8 +3,9 @@
 namespace Corpus\Test\Router;
 
 use Corpus\Router\CliRouter;
+use PHPUnit\Framework\TestCase;
 
-class CliRouterTest extends \PHPUnit\Framework\TestCase {
+class CliRouterTest extends TestCase {
 
 	protected $namespaces = [ '\\Foo', '\\Foo\\Bar', '\\Foo\\Bar\\ClassName', '\\Fun\\With_Underscores', '\\日本の\\しい' ];
 
@@ -16,44 +17,44 @@ class CliRouterTest extends \PHPUnit\Framework\TestCase {
 			$this->assertNull($router->match(''));
 
 			$this->assertEquals([
-					'controller' => $ns . '\\index',
-					'action'     => null,
-					'arguments'  => [],
-				],
+				'controller' => $ns . '\\index',
+				'action'     => null,
+				'arguments'  => [],
+			],
 				$router->match('/')
 			);
 
 			$this->assertNull($router->match('/:myAction'));
 
 			$this->assertEquals([
-					'controller' => $ns . '\\help',
-					'action'     => null,
-					'arguments'  => [],
-				],
+				'controller' => $ns . '\\help',
+				'action'     => null,
+				'arguments'  => [],
+			],
 				$router->match('help')
 			);
 
 			$this->assertEquals([
-					'controller' => $ns . '\\help',
-					'action'     => 'otherAction',
-					'arguments'  => [],
-				],
+				'controller' => $ns . '\\help',
+				'action'     => 'otherAction',
+				'arguments'  => [],
+			],
 				$router->match('help:otherAction')
 			);
 
 			$this->assertEquals([
-					'controller' => $ns . '\\help\\i\\am\\stuck',
-					'action'     => null,
-					'arguments'  => [],
-				],
+				'controller' => $ns . '\\help\\i\\am\\stuck',
+				'action'     => null,
+				'arguments'  => [],
+			],
 				$router->match('help/i/am/stuck')
 			);
 
 			$this->assertEquals([
-					'controller' => $ns . '\\help\\i\\am\\stuck',
-					'action'     => 'funkyfuntimes',
-					'arguments'  => [],
-				],
+				'controller' => $ns . '\\help\\i\\am\\stuck',
+				'action'     => 'funkyfuntimes',
+				'arguments'  => [],
+			],
 				$router->match('help/i/am/stuck:funkyfuntimes')
 			);
 
@@ -61,7 +62,6 @@ class CliRouterTest extends \PHPUnit\Framework\TestCase {
 			$this->assertNull($router->match('/Baz/Qux.json:What'));
 			$this->assertNull($router->match('/Baz/Qux.json:10')); //So we don't confuse the colon syntax with ports
 		}
-
 	}
 
 }

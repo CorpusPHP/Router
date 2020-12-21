@@ -12,7 +12,7 @@ class MultiRouter implements RouterInterface {
 	/** @var RouterInterface[] */
 	protected $routers = [];
 
-	public function __construct(RouterInterface ...$routers) {
+	public function __construct( RouterInterface ...$routers ) {
 		$this->routers = $routers;
 	}
 
