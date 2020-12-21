@@ -14,9 +14,6 @@ class MultiRouter implements RouterInterface {
 	 */
 	protected $routers = [];
 
-	/**
-	 * @param ... RouterInterface
-	 */
 	public function __construct() {
 		foreach( func_get_args() as $arg ) {
 			$this->addRouter($arg);
@@ -56,4 +53,5 @@ class MultiRouter implements RouterInterface {
 
 		return null;
 	}
+
 }

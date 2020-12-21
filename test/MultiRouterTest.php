@@ -7,13 +7,13 @@ use Corpus\Router\MultiRouter;
 class MultiRouterTest extends \PHPUnit\Framework\TestCase {
 
 	public function testEmpty() {
-		$router = new MultiRouter();
+		$router = new MultiRouter;
 
 		$this->assertFalse($router->match('index.html'));
 	}
 
 	public function testMatch_None() {
-		$router = new MultiRouter();
+		$router = new MultiRouter;
 
 		/**
 		 * @var $ri1 \PHPUnit_Framework_MockObject_MockObject|\Corpus\Router\Interfaces\RouterInterface
@@ -32,7 +32,7 @@ class MultiRouterTest extends \PHPUnit\Framework\TestCase {
 	}
 
 	public function testMatch_MidStream() {
-		$router = new MultiRouter();
+		$router = new MultiRouter;
 
 		/**
 		 * @var $ri1 \PHPUnit_Framework_MockObject_MockObject|\Corpus\Router\Interfaces\RouterInterface
@@ -73,4 +73,5 @@ class MultiRouterTest extends \PHPUnit\Framework\TestCase {
 		$router = new MultiRouter($ri1, $ri2, $ri3);
 		$this->assertSame([ $ri1, $ri2, $ri3 ], $router->getRouters());
 	}
+
 }

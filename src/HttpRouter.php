@@ -15,6 +15,7 @@ class HttpRouter extends AbstractRouter implements ReversibleRouterInterface {
 	 */
 	public function __construct( $root_namespace, $server = [] ) {
 		$this->server = $server;
+
 		parent::__construct($root_namespace);
 	}
 
@@ -99,4 +100,5 @@ class HttpRouter extends AbstractRouter implements ReversibleRouterInterface {
 
 		return $path;
 	}
+
 }

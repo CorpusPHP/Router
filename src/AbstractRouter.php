@@ -74,4 +74,5 @@ abstract class AbstractRouter implements RouterInterface {
 
 		return $class_name;
 	}
+
 }

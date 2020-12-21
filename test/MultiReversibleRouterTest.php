@@ -3,7 +3,6 @@
 namespace Corpus\Test\Router;
 
 use Corpus\Router\Exceptions\RouteGenerationFailedException;
-use Corpus\Router\Interfaces\ReversibleRouterInterface;
 use Corpus\Router\MultiReversibleRouter;
 
 class MultiReversibleRouterTest extends \PHPUnit\Framework\TestCase {
@@ -11,7 +10,7 @@ class MultiReversibleRouterTest extends \PHPUnit\Framework\TestCase {
 	public function testEmpty() {
 		$this->expectException(\Corpus\Router\Exceptions\RouteGenerationFailedException::class);
 
-		$router = new MultiReversibleRouter();
+		$router = new MultiReversibleRouter;
 
 		$router->generate('index');
 	}
@@ -19,7 +18,7 @@ class MultiReversibleRouterTest extends \PHPUnit\Framework\TestCase {
 	public function testMatch_None() {
 		$this->expectException(\Corpus\Router\Exceptions\RouteGenerationFailedException::class);
 
-		$router = new MultiReversibleRouter();
+		$router = new MultiReversibleRouter;
 
 		/**
 		 * @var $ri1 \PHPUnit_Framework_MockObject_MockObject|\Corpus\Router\Interfaces\ReversibleRouterInterface
@@ -40,7 +39,7 @@ class MultiReversibleRouterTest extends \PHPUnit\Framework\TestCase {
 	}
 
 	public function testMatch_MidStream() {
-		$router = new MultiReversibleRouter();
+		$router = new MultiReversibleRouter;
 
 		/**
 		 * @var $ri1 \PHPUnit_Framework_MockObject_MockObject|\Corpus\Router\Interfaces\ReversibleRouterInterface
@@ -85,4 +84,5 @@ class MultiReversibleRouterTest extends \PHPUnit\Framework\TestCase {
 		$router = new MultiReversibleRouter($ri1, $ri2, $ri3);
 		$this->assertSame([ $ri1, $ri2, $ri3 ], $router->getRouters());
 	}
+
 }

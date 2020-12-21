@@ -12,4 +12,5 @@ interface ReversibleRouterInterface extends RouterInterface {
 	 * @throws \Corpus\Router\Exceptions\RouteGenerationFailedException
 	 */
 	public function generate( $controller, $action = null, array $options = [] ) : string;
+
 }

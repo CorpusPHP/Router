@@ -35,6 +35,7 @@ class HttpRouterTest extends \PHPUnit\Framework\TestCase {
 					if( $rm ) {
 						$result['request']['method'] = $rm;
 					}
+
 					$this->assertEquals($result, $router->match('/' . $query_string));
 
 					$result = [
@@ -45,6 +46,7 @@ class HttpRouterTest extends \PHPUnit\Framework\TestCase {
 					if( $rm ) {
 						$result['request']['method'] = $rm;
 					}
+
 					$this->assertEquals($result, $router->match('/Baz/Qux' . $query_string));
 
 					$result = [
@@ -55,6 +57,7 @@ class HttpRouterTest extends \PHPUnit\Framework\TestCase {
 					if( $rm ) {
 						$result['request']['method'] = $rm;
 					}
+
 					$this->assertEquals($result, $router->match('/Baz/Qux:What' . $query_string));
 
 					$this->assertSame(false, $router->match('/Baz/Qux.json:10' . $query_string)); //So we don't confuse the colon syntax with ports

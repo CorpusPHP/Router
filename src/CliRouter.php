@@ -10,6 +10,7 @@ class CliRouter extends AbstractRouter {
 
 	public function __construct( $root_namespace, array $arguments = [] ) {
 		$this->arguments = $arguments;
+
 		parent::__construct($root_namespace);
 	}
 

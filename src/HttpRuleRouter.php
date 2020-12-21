@@ -20,6 +20,7 @@ class HttpRuleRouter extends AbstractRouter implements ReversibleRouterInterface
 	 */
 	public function __construct( $root_namespace, $server = [] ) {
 		$this->server = $server;
+
 		parent::__construct($root_namespace);
 	}
 
@@ -93,9 +94,8 @@ class HttpRuleRouter extends AbstractRouter implements ReversibleRouterInterface
 				throw new \RuntimeException('Invalid Token');
 			}
 		}
-		$out .= '$%';
 
-		return $out;
+		return $out . '$%';
 	}
 
 	/**
@@ -158,6 +158,7 @@ class HttpRuleRouter extends AbstractRouter implements ReversibleRouterInterface
 		if( !empty($action) ) {
 			$options['_action'] = $action;
 		}
+
 		foreach( $this->rules as $rule ) {
 			$xoptions = $options;
 
@@ -172,6 +173,7 @@ class HttpRuleRouter extends AbstractRouter implements ReversibleRouterInterface
 								//Inline options must be scalar
 								break 2;
 							}
+
 							$val = (string)$xoptions[$name];
 							if( !$this->validateTokenValue($token, $val) ) {
 								continue 2;
@@ -224,4 +226,5 @@ class HttpRuleRouter extends AbstractRouter implements ReversibleRouterInterface
 
 		throw new \RuntimeException('Invalid Token'); //should never be reached
 	}
+
 }

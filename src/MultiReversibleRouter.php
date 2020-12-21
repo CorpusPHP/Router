@@ -45,4 +45,5 @@ class MultiReversibleRouter extends MultiRouter implements ReversibleRouterInter
 
 		throw new RouteGenerationFailedException('none of the routers available were able to generate a link');
 	}
+
 }

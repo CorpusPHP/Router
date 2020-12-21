@@ -104,6 +104,7 @@ class HttpRuleRouterTest extends \PHPUnit\Framework\TestCase {
 			} catch(RouteGenerationFailedException $e) { 
 				// noop
 			}
+
 			//doesn't do signed
 			try {
 				$router->generate($ns . '\\Goose', null, [ 'qux' => '1.1' ]);
@@ -111,6 +112,7 @@ class HttpRuleRouterTest extends \PHPUnit\Framework\TestCase {
 			} catch(RouteGenerationFailedException $e) { 
 				// noop
 			}
+
 			//doesn't do float
 
 			$router->addRule('qux/{quux|a}/garply', 'Gander');
@@ -186,4 +188,5 @@ class HttpRuleRouterTest extends \PHPUnit\Framework\TestCase {
 		$router = new HttpRuleRouter('\\Foo');
 		$router->generate(7);
 	}
+
 }
