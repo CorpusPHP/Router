@@ -9,7 +9,7 @@ class MultiRouterTest extends \PHPUnit\Framework\TestCase {
 	public function testEmpty() {
 		$router = new MultiRouter;
 
-		$this->assertFalse($router->match('index.html'));
+		$this->assertNull($router->match('index.html'));
 	}
 
 	public function testMatch_None() {
@@ -22,13 +22,13 @@ class MultiRouterTest extends \PHPUnit\Framework\TestCase {
 
 		$ri1->expects($this->exactly(3))->method('match')->with(
 			$this->equalTo('index.html')
-		)->will($this->returnValue(false));
+		)->willReturn(null);
 
 		$router->addRouter($ri1);
 		$router->addRouter($ri1);
 		$router->addRouter($ri1);
 
-		$this->assertFalse($router->match('index.html'));
+		$this->assertNull($router->match('index.html'));
 	}
 
 	public function testMatch_MidStream() {
@@ -45,11 +45,11 @@ class MultiRouterTest extends \PHPUnit\Framework\TestCase {
 
 		$ri1->expects($this->once())->method('match')->with(
 			$this->equalTo('index.html')
-		)->will($this->returnValue(false));
+		)->willReturn(null);
 
 		$ri2->expects($this->once())->method('match')->with(
 			$this->equalTo('index.html')
-		)->will($this->returnValue([ true ]));
+		)->willReturn([ true ]);
 
 		$ri3->expects($this->never())->method('match');
 

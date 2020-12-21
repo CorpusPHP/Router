@@ -24,7 +24,7 @@ class HttpRuleRouterTest extends \PHPUnit\Framework\TestCase {
 
 					$rm = isset($server_array['REQUEST_METHOD']) ? strtoupper($server_array['REQUEST_METHOD']) : null;
 
-					$this->assertSame(false, $router->match('' . $query_string));
+					$this->assertNull($router->match('' . $query_string));
 
 					$result = [
 						'controller' => $ns . '\\index',
@@ -58,7 +58,7 @@ class HttpRuleRouterTest extends \PHPUnit\Framework\TestCase {
 					}
 
 					$this->assertEquals($result, $router->match('cat/10/bar' . $query_string));
-					$this->assertFalse($router->match('cat/string/bar' . $query_string));
+					$this->assertNull($router->match('cat/string/bar' . $query_string));
 				}
 			}
 		}

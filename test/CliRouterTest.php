@@ -13,7 +13,7 @@ class CliRouterTest extends \PHPUnit\Framework\TestCase {
 		foreach( $this->namespaces as $ns ) {
 			$router = new CliRouter($ns);
 
-			$this->assertSame(false, $router->match(''));
+			$this->assertNull($router->match(''));
 
 			$this->assertEquals([
 					'controller' => $ns . '\\index',
@@ -61,7 +61,7 @@ class CliRouterTest extends \PHPUnit\Framework\TestCase {
 
 			$this->assertEquals(false, $router->match('/Baz/Qux.json:What'));
 
-			$this->assertSame(false, $router->match('/Baz/Qux.json:10')); //So we don't confuse the colon syntax with ports
+			$this->assertNull($router->match('/Baz/Qux.json:10')); //So we don't confuse the colon syntax with ports
 		}
 
 	}

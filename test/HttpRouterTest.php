@@ -25,7 +25,7 @@ class HttpRouterTest extends \PHPUnit\Framework\TestCase {
 
 					$rm = isset($server_array['REQUEST_METHOD']) ? strtoupper($server_array['REQUEST_METHOD']) : null;
 
-					$this->assertSame(false, $router->match('' . $query_string));
+					$this->assertNull($router->match('' . $query_string));
 
 					$result = [
 						'controller' => $ns . '\\index',
@@ -60,7 +60,7 @@ class HttpRouterTest extends \PHPUnit\Framework\TestCase {
 
 					$this->assertEquals($result, $router->match('/Baz/Qux:What' . $query_string));
 
-					$this->assertSame(false, $router->match('/Baz/Qux.json:10' . $query_string)); //So we don't confuse the colon syntax with ports
+					$this->assertNull($router->match('/Baz/Qux.json:10' . $query_string)); //So we don't confuse the colon syntax with ports
 				}
 			}
 		}
