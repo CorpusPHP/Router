@@ -15,13 +15,12 @@ class HttpRuleRouter extends AbstractRouter implements ReversibleRouterInterface
 	protected $server;
 
 	/**
-	 * @param string $root_namespace
-	 * @param array  $server         The $_SERVER array - optional
+	 * @param array $server The $_SERVER array - optional
 	 */
-	public function __construct( $root_namespace, $server = [] ) {
+	public function __construct( string $rootNamespace, $server = [] ) {
 		$this->server = $server;
 
-		parent::__construct($root_namespace);
+		parent::__construct($rootNamespace);
 	}
 
 	/** @var array[] */
@@ -136,14 +135,13 @@ class HttpRuleRouter extends AbstractRouter implements ReversibleRouterInterface
 
 	/**
 	 * @param object|string $controller Instance or Relative 'admin\index' or absolute '\Controllers\www\admin\index'
-	 * @param string|null   $action
 	 * @throws \Corpus\Router\Exceptions\NonRoutableException
 	 * @throws \Corpus\Router\Exceptions\RouteGenerationFailedException
 	 */
-	public function generate( $controller, $action = null, array $options = [] ) : string {
-		$class_name = $this->classNameC14N($controller);
+	public function generate( $controller, ?string $action = null, array $options = [] ) : string {
+		$className = $this->classNameC14N($controller);
 
-		if( !$class_name ) {
+		if( !$className ) {
 			throw new NonRoutableException("Controller '{$controller}' should be a valid controller class/classname and of namespace {$this->namespace}");
 		}
 
@@ -154,7 +152,7 @@ class HttpRuleRouter extends AbstractRouter implements ReversibleRouterInterface
 		foreach( $this->rules as $rule ) {
 			$xoptions = $options;
 
-			if( $rule['route'] == $class_name ) {
+			if( $rule['route'] == $className ) {
 				$path = '';
 				foreach( $rule['tokens'] as $token ) {
 					if( is_array($token) && count($token) == 2 ) {

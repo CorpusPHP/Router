@@ -12,23 +12,21 @@ class MultiRouter implements RouterInterface {
 	/** @var RouterInterface[] */
 	protected $routers = [];
 
-	public function __construct() {
-		foreach( func_get_args() as $arg ) {
-			$this->addRouter($arg);
-		}
+	public function __construct(RouterInterface ...$routers) {
+		$this->routers = $routers;
 	}
 
 	/**
 	 * Add a router to the queue
 	 */
-	public function addRouter( RouterInterface $router ) {
+	public function addRouter( RouterInterface $router ) : void {
 		$this->routers[] = $router;
 	}
 
 	/**
 	 * @return Interfaces\RouterInterface[]
 	 */
-	public function getRouters() {
+	public function getRouters() : array {
 		return $this->routers;
 	}
 

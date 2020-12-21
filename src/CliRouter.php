@@ -8,10 +8,10 @@ class CliRouter extends AbstractRouter {
 
 	protected $arguments;
 
-	public function __construct( $root_namespace, array $arguments = [] ) {
+	public function __construct( $rootNamespace, array $arguments = [] ) {
 		$this->arguments = $arguments;
 
-		parent::__construct($root_namespace);
+		parent::__construct($rootNamespace);
 	}
 
 	public function match( string $path ) : ?array {

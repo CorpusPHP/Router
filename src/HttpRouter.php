@@ -10,13 +10,12 @@ class HttpRouter extends AbstractRouter implements ReversibleRouterInterface {
 	protected $server;
 
 	/**
-	 * @param string $root_namespace
-	 * @param array  $server         The $_SERVER array - optional
+	 * @param array $server The $_SERVER array - optional
 	 */
-	public function __construct( $root_namespace, $server = [] ) {
+	public function __construct( string $rootNamespace, array $server = [] ) {
 		$this->server = $server;
 
-		parent::__construct($root_namespace);
+		parent::__construct($rootNamespace);
 	}
 
 	public function match( string $path ) : ?array {
@@ -25,30 +24,34 @@ class HttpRouter extends AbstractRouter implements ReversibleRouterInterface {
 		$path = empty($parts['path']) ? '' : $parts['path'];
 		$args = empty($parts['query']) ? [] : $this->parseStr($parts['query']);
 
-		if( substr($path, -1) == '/' ) {
+		if( substr($path, -1) === '/' ) {
 			$path .= 'index';
 		}
 
 		$path = $this->trimSlashes($path);
 
 		if( preg_match(
-			'%^
-				# offical namespace/class_name regex
-				(?P<namespace>(?:[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*/)*)
-				(?P<class_name>[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*)
-				(?::(?P<action>[a-zA-Z]+))?
-			$%sx',
+			<<<'REGEX'
+%^
+	# offical namespace/class_name regex
+	(?P<namespace>(?:[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*/)*)
+	(?P<class_name>[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*)
+	(?::(?P<action>[a-zA-Z]+))?
+$%x
+REGEX
+			,
 			$path, $regs)
 		) {
 			$parts = explode('/', $regs['namespace'] . $regs['class_name']);
 			array_unshift($parts, $this->namespace);
-			$class_name = $this->classNameC14N(implode('\\', $parts));
-			if( $class_name === false ) {
+
+			$className = $this->classNameC14N(implode('\\', $parts));
+			if( $className === null ) {
 				throw new \RuntimeException; // this should never happen
 			}
 
 			$return = [
-				self::CONTROLLER => $class_name,
+				self::CONTROLLER => $className,
 				self::ACTION     => null,
 				self::OPTIONS    => $args,
 			];
@@ -69,17 +72,16 @@ class HttpRouter extends AbstractRouter implements ReversibleRouterInterface {
 
 	/**
 	 * @param object|string $controller Instance or Relative 'admin\index' or absolute '\Controllers\www\admin\index'
-	 * @param string|null   $action
 	 * @throws \Corpus\Router\Exceptions\NonRoutableException
 	 */
-	public function generate( $controller, $action = null, array $options = [] ) : string {
-		$class_name = $this->classNameC14N($controller);
+	public function generate( $controller, ?string $action = null, array $options = [] ) : string {
+		$className = $this->classNameC14N($controller);
 
-		if( !$class_name ) {
+		if( !$className ) {
 			throw new NonRoutableException("Controller '{$controller}' should be a valid controller class/classname and of namespace {$this->namespace}");
 		}
 
-		$parts = explode('\\', $this->trimSlashes($class_name));
+		$parts = explode('\\', $this->trimSlashes($className));
 		$parts = array_slice($parts, substr_count($this->namespace, '\\') + 1);
 		$path  = '/' . implode('/', $parts);
 
