@@ -2,14 +2,15 @@
 
 [![Latest Stable Version](https://poser.pugx.org/corpus/router/version)](https://packagist.org/packages/corpus/router)
 [![License](https://poser.pugx.org/corpus/router/license)](https://packagist.org/packages/corpus/router)
-[![Build Status](https://travis-ci.org/CorpusPHP/Router.svg?branch=master)](https://travis-ci.org/CorpusPHP/Router)
+[![Build Status](https://github.com/CorpusPHP/Router/workflows/CI/badge.svg?)](https://github.com/CorpusPHP/Router/actions?query=workflow%3ACI)
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/CorpusPHP/Router/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/CorpusPHP/Router)
 
 
 A Simple Collection of Routers
 
 ## Requirements
 
-- **php**: >=5.3
+- **php**: >=7.1
 
 ## Installing
 
@@ -26,11 +27,10 @@ composer require 'corpus/router'
 ```php
 <?php
 
-require('vendor/autoload.php');
+require __DIR__ . '/../vendor/autoload.php';
 
 // $_SERVER => ['REQUEST_METHOD' => [ 'method' => 'POST' ]]
 $router = new \Corpus\Router\HttpRouter('\\Corpus\\Controllers', $_SERVER);
-
 
 $route = $router->match('test/controller:action');
 
@@ -42,8 +42,7 @@ $route = $router->match('test/controller:action');
 //		'request'    => [ 'method' => 'POST' ],
 //	]
 
-
-# ----------------
+// ----------------
 
 $route = $router->match('test/controller?query=whatwhat');
 
@@ -55,29 +54,25 @@ $route = $router->match('test/controller?query=whatwhat');
 //		'request'    => [ 'method' => 'POST' ],
 //	]
 
-
-# ----------------
+// ----------------
 
 $route = $router->match($_SERVER['REQUEST_URI']);
 
 // $route = Current Request
 
-
-# ----------------
+// ----------------
 
 $url = $router->generate('myNamespace\\admin', 'index');
 
 // $url = '/myNamespace/admin:index'
 
-
-# ----------------
+// ----------------
 
 $url = $router->generate('\\Corpus\\Controllers\\myNamespace\\admin', 'index');
 
 // $url = '/myNamespace/admin:index'
 
-
-# ----------------
+// ----------------
 
 try {
 	$url = $router->generate('\\Invalid\\Absolute\\Controller', 'index');
@@ -86,7 +81,6 @@ try {
 }
 
 // $url = 'fail'
-
 
 ```
 
@@ -99,21 +93,20 @@ try {
 namespace Corpus\Router;
 
 class HttpRouter {
-	const ACTION = 'action';
-	const CONTROLLER = 'controller';
-	const OPTIONS = 'options';
+	public const ACTION = 'action';
+	public const CONTROLLER = 'controller';
+	public const OPTIONS = 'options';
 }
 ```
 
 #### Method: HttpRouter->__construct
 
 ```php
-function __construct($root_namespace [, $server = array()])
+function __construct(string $rootNamespace [, array $server = []])
 ```
 
 ##### Parameters:
 
-- ***string*** `$root_namespace`
 - ***array*** `$server` - The $_SERVER array - optional
 
 ---
@@ -121,48 +114,82 @@ function __construct($root_namespace [, $server = array()])
 #### Method: HttpRouter->match
 
 ```php
-function match($path)
+function match(string $path) : ?array
+```
+
+Match given path to a route array.  
+  
+A non-null route is not guaranteed to _exist_ - just to be well formed.  
+It is up the implementations dispatch mechanism to decide it the route exists  
+  
+The returned route array the the a shape of  
+  
+```php  
+[  
+    // The controller action. Definition varies by router.  
+    RouterInterface:ACTION     => 'action',  
+  
+    // An expected class name based on given rules. Not guaranteed to exist.  
+    RouterInterface:CONTROLLER => '\Controller\www\index',  
+  
+    // Router specific but akin to $_GET - may contain additional options  
+    RouterInterface:OPTIONS    => ['key' => 'value'],  
+]  
+```
+
+Match given path to a route array.  
+  
+A non-null route is not guaranteed to _exist_ - just to be well formed.  
+It is up the implementations dispatch mechanism to decide it the route exists  
+  
+The returned route array the the a shape of  
+  
+```php  
+[  
+    // The controller action. Definition varies by router.  
+    RouterInterface:ACTION     => 'action',  
+  
+    // An expected class name based on given rules. Not guaranteed to exist.  
+    RouterInterface:CONTROLLER => '\Controller\www\index',  
+  
+    // Router specific but akin to $_GET - may contain additional options  
+    RouterInterface:OPTIONS    => ['key' => 'value'],  
+]  
 ```
 
 ##### Parameters:
 
-- ***string*** `$path`
+- ***string*** `$path` - The path to match against including query string ala `foo/bar.html?param=woo`
 
 ##### Returns:
 
-- ***array*** | ***false***
+- ***array*** | ***null*** - route array or null on failure to route
 
 ---
 
 #### Method: HttpRouter->generate
 
 ```php
-function generate($controller [, $action = null [, $options = array()]])
+function generate($controller [, ?string $action = null [, array $options = []]]) : string
 ```
+
+Generate a URL for the given controller, action and options
 
 ##### Parameters:
 
-- ***string*** | ***object*** `$controller` - Instance or Relative 'admin\index' or absolute '\Controllers\www\admin\index'
-- ***string*** | ***null*** `$action`
-- ***array*** `$options`
-
-##### Returns:
-
-- ***string***
+- ***object*** | ***string*** `$controller` - Instance or Relative 'admin\index' or absolute '\Controllers\www\admin\index'
 
 ---
 
 #### Method: HttpRouter->getNamespace
 
 ```php
-function getNamespace()
+function getNamespace() : string
 ```
-
-Return the canonicalized namespace prefix
 
 ##### Returns:
 
-- ***String***
+- ***string*** - The canonical namespace prefix
 
 ### Class: \Corpus\Router\CliRouter
 
@@ -171,49 +198,67 @@ Return the canonicalized namespace prefix
 namespace Corpus\Router;
 
 class CliRouter {
-	const ARGUMENTS = 'arguments';
-	const ACTION = 'action';
-	const CONTROLLER = 'controller';
-	const OPTIONS = 'options';
+	public const ARGUMENTS = 'arguments';
+	public const ACTION = 'action';
+	public const CONTROLLER = 'controller';
+	public const OPTIONS = 'options';
 }
 ```
 
 #### Method: CliRouter->__construct
 
 ```php
-function __construct($root_namespace [, $arguments = array()])
+function __construct($rootNamespace [, array $arguments = []])
 ```
 
 ##### Parameters:
 
-- ***string*** `$root_namespace` - The namespace prefix the controllers will be under
+- ***string*** `$rootNamespace` - The namespace prefix the controllers will be under
 
 ---
 
 #### Method: CliRouter->match
 
 ```php
-function match($path)
+function match(string $path) : ?array
+```
+
+Match given path to a route array.  
+  
+A non-null route is not guaranteed to _exist_ - just to be well formed.  
+It is up the implementations dispatch mechanism to decide it the route exists  
+  
+The returned route array the the a shape of  
+  
+```php  
+[  
+    // The controller action. Definition varies by router.  
+    RouterInterface:ACTION     => 'action',  
+  
+    // An expected class name based on given rules. Not guaranteed to exist.  
+    RouterInterface:CONTROLLER => '\Controller\www\index',  
+  
+    // Router specific but akin to $_GET - may contain additional options  
+    RouterInterface:OPTIONS    => ['key' => 'value'],  
+]  
 ```
 
 ##### Parameters:
 
-- ***string*** `$path`
+- ***string*** `$path` - The path to match against including query string ala `foo/bar.html?param=woo`
 
 ##### Returns:
 
-- ***array*** | ***false***
+- ***array*** | ***null*** - route array or null on failure to route
 
 ---
 
 #### Method: CliRouter->getNamespace
 
 ```php
-function getNamespace()
+function getNamespace() : string
 ```
-
-Return the canonicalized namespace prefix
 
 ##### Returns:
 
-- ***String***
+- ***string*** - The canonical namespace prefix

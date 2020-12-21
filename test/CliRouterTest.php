@@ -3,68 +3,65 @@
 namespace Corpus\Test\Router;
 
 use Corpus\Router\CliRouter;
+use PHPUnit\Framework\TestCase;
 
-class CliRouterTest extends \PHPUnit_Framework_TestCase {
+class CliRouterTest extends TestCase {
 
-	protected $namespaces = array( '\\Foo', '\\Foo\\Bar', '\\Foo\\Bar\\ClassName', '\\Fun\\With_Underscores', '\\日本の\\しい' );
+	protected $namespaces = [ '\\Foo', '\\Foo\\Bar', '\\Foo\\Bar\\ClassName', '\\Fun\\With_Underscores', '\\日本の\\しい' ];
 
-	public function testMatch() {
+	public function testMatch() : void {
 
 		foreach( $this->namespaces as $ns ) {
 			$router = new CliRouter($ns);
 
-			$this->assertSame(false, $router->match(''));
+			$this->assertNull($router->match(''));
 
-			$this->assertEquals(array(
-					'controller' => $ns . '\\index',
-					'action'     => null,
-					'arguments'  => array(),
-				),
+			$this->assertEquals([
+				'controller' => $ns . '\\index',
+				'action'     => null,
+				'arguments'  => [],
+			],
 				$router->match('/')
 			);
 
-			$this->assertEquals(false, $router->match('/:myAction'));
+			$this->assertNull($router->match('/:myAction'));
 
-			$this->assertEquals(array(
-					'controller' => $ns . '\\help',
-					'action'     => null,
-					'arguments'  => array(),
-				),
+			$this->assertEquals([
+				'controller' => $ns . '\\help',
+				'action'     => null,
+				'arguments'  => [],
+			],
 				$router->match('help')
 			);
 
-			$this->assertEquals(array(
-					'controller' => $ns . '\\help',
-					'action'     => 'otherAction',
-					'arguments'  => array(),
-				),
+			$this->assertEquals([
+				'controller' => $ns . '\\help',
+				'action'     => 'otherAction',
+				'arguments'  => [],
+			],
 				$router->match('help:otherAction')
 			);
 
-			$this->assertEquals(array(
-					'controller' => $ns . '\\help\\i\\am\\stuck',
-					'action'     => null,
-					'arguments'  => array(),
-				),
+			$this->assertEquals([
+				'controller' => $ns . '\\help\\i\\am\\stuck',
+				'action'     => null,
+				'arguments'  => [],
+			],
 				$router->match('help/i/am/stuck')
 			);
 
-			$this->assertEquals(array(
-					'controller' => $ns . '\\help\\i\\am\\stuck',
-					'action'     => 'funkyfuntimes',
-					'arguments'  => array(),
-				),
+			$this->assertEquals([
+				'controller' => $ns . '\\help\\i\\am\\stuck',
+				'action'     => 'funkyfuntimes',
+				'arguments'  => [],
+			],
 				$router->match('help/i/am/stuck:funkyfuntimes')
 			);
 
-			$this->assertEquals(false, $router->match('/Baz/Qux.json'));
-
-			$this->assertEquals(false, $router->match('/Baz/Qux.json:What'));
-
-			$this->assertSame(false, $router->match('/Baz/Qux.json:10')); //So we don't confuse the colon syntax with ports
+			$this->assertNull($router->match('/Baz/Qux.json'));
+			$this->assertNull($router->match('/Baz/Qux.json:What'));
+			$this->assertNull($router->match('/Baz/Qux.json:10')); //So we don't confuse the colon syntax with ports
 		}
-
 	}
 
 }
- 

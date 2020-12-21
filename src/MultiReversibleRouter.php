@@ -14,9 +14,11 @@ class MultiReversibleRouter extends MultiRouter implements ReversibleRouterInter
 	 * @inheritdoc
 	 * @param \Corpus\Router\Interfaces\ReversibleRouterInterface $router
 	 */
-	public function addRouter( RouterInterface $router ) {
+	public function addRouter( RouterInterface $router ) : void {
 		if( $router instanceof ReversibleRouterInterface ) {
-			return parent::addRouter($router);
+			parent::addRouter($router);
+
+			return;
 		}
 
 		throw new \InvalidArgumentException('Expected ReversibleRouterInterface');
@@ -25,24 +27,22 @@ class MultiReversibleRouter extends MultiRouter implements ReversibleRouterInter
 	/**
 	 * Loops over routers in the order they were added until a generated URL is found.
 	 *
-	 * @param string|object $controller Instance or Relative 'admin\index' or absolute '\Controllers\www\admin\index'
-	 * @param string|null   $action
-	 * @param array         $options
-	 * @return string
+	 * @param object|string $controller Instance or Relative 'admin\index' or absolute '\Controllers\www\admin\index'
 	 * @throws \Corpus\Router\Exceptions\RouteGenerationFailedException
 	 */
-	public function generate( $controller, $action = null, array $options = array() ) {
+	public function generate( $controller, ?string $action = null, array $options = [] ) : string {
 		/**
-		 * @var $router ReversibleRouterInterface
+		 * @var ReversibleRouterInterface $router
 		 */
 		foreach( $this->routers as $router ) {
 			try {
 				return $router->generate($controller, $action, $options);
-			} catch(RouteGenerationFailedException $ex) {
+			} catch( RouteGenerationFailedException $ex ) {
 				continue;
 			}
 		}
 
 		throw new RouteGenerationFailedException('none of the routers available were able to generate a link');
 	}
+
 }

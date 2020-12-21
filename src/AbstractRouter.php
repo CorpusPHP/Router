@@ -6,72 +6,56 @@ use Corpus\Router\Interfaces\RouterInterface;
 
 abstract class AbstractRouter implements RouterInterface {
 
-	/**
-	 * @var String
-	 */
+	/** @var string */
 	protected $namespace;
 
 	/**
-	 * @param string $root_namespace The namespace prefix the controllers will be under
+	 * @param string $rootNamespace The namespace prefix the controllers will be under
 	 */
-	function __construct( $root_namespace ) {
-		$this->namespace = $this->trimSlashes($root_namespace);
+	public function __construct( string $rootNamespace ) {
+		$this->namespace = $this->trimSlashes($rootNamespace);
 	}
 
-	/**
-	 * @param $path
-	 * @return string
-	 */
-	protected final function trimSlashes( $path ) {
+	final protected function trimSlashes( string $path ) : string {
 		return trim($path, ' /\\');
 	}
 
 	/**
-	 * Return the canonicalized namespace prefix
-	 *
-	 * @return String
+	 * @return string The canonical namespace prefix
 	 */
-	public function getNamespace() {
+	public function getNamespace() : string {
 		return $this->namespace;
 	}
 
-	/**
-	 * @param string $class_name
-	 * @return bool
-	 */
-	protected function isOfNamespace( $class_name ) {
-		return stripos($this->trimSlashes($class_name), $this->namespace . '\\') === 0;
+	protected function isOfNamespace( string $className ) : bool {
+		return stripos($this->trimSlashes($className), $this->namespace . '\\') === 0;
 	}
 
-	/**
-	 * @param string $query_str
-	 * @return array
-	 */
-	protected function parseStr( $query_str ) {
-		parse_str($query_str, $opts);
+	protected function parseStr( string $queryStr ) : array {
+		parse_str($queryStr, $opts);
 
 		return $opts;
 	}
 
 	/**
-	 * @param $controller
-	 * @return bool|string
+	 * @param object|string $controller
 	 */
-	protected function classNameC14N( $controller ) {
-		$class_name = false;
-		if( is_object($controller) && is_callable($controller) && $this->isOfNamespace($class_name = get_class($controller)) ) {
+	protected function classNameC14N( $controller ) : ?string {
+		$className = null;
+		if( is_object($controller) && is_callable($controller) && $this->isOfNamespace($className = get_class($controller)) ) {
 		} elseif( is_string($controller) && $controller ) {
 			if( $this->isOfNamespace($controller) ) {
-				$class_name = $this->trimSlashes($controller);
+				$className = $this->trimSlashes($controller);
 			} elseif( $controller[0] != '\\' ) {
-				$class_name = $this->namespace . '\\' . $this->trimSlashes($controller);
+				$className = $this->namespace . '\\' . $this->trimSlashes($controller);
 			}
 		}
 
-		if($class_name !== false) {
-			$class_name = '\\' . ltrim($class_name, '\\');
+		if( $className !== null ) {
+			$className = '\\' . ltrim($className, '\\');
 		}
 
-		return $class_name;
+		return $className;
 	}
+
 }

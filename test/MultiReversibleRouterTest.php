@@ -6,64 +6,64 @@ use Corpus\Router\Exceptions\RouteGenerationFailedException;
 use Corpus\Router\Interfaces\ReversibleRouterInterface;
 use Corpus\Router\MultiReversibleRouter;
 
-class MultiReversibleRouterTest extends \PHPUnit_Framework_TestCase {
+class MultiReversibleRouterTest extends \PHPUnit\Framework\TestCase {
 
-	/**
-	 * @expectedException \Corpus\Router\Exceptions\RouteGenerationFailedException
-	 */
 	public function testEmpty() {
-		$router = new MultiReversibleRouter();
+		$this->expectException(\Corpus\Router\Exceptions\RouteGenerationFailedException::class);
+
+		$router = new MultiReversibleRouter;
 
 		$router->generate('index');
 	}
 
-	/**
-	 * @expectedException \Corpus\Router\Exceptions\RouteGenerationFailedException
-	 */
-	public function testMatch_None() {
-		$router = new MultiReversibleRouter();
+	public function testMatch_None() : void {
+
+		$this->expectException(\Corpus\Router\Exceptions\RouteGenerationFailedException::class);
+
+		$router = new MultiReversibleRouter;
 
 		/**
-		 * @var $ri1 \PHPUnit_Framework_MockObject_MockObject|\Corpus\Router\Interfaces\ReversibleRouterInterface
+		 * @var \Corpus\Router\Interfaces\ReversibleRouterInterface|\PHPUnit\Framework\MockObject\MockObject $ri1
 		 */
-		$ri1 = $this->getMock('\Corpus\Router\Interfaces\ReversibleRouterInterface');
+		$ri1 = $this->createMock(ReversibleRouterInterface::class);
 
 		$ri1->expects($this->exactly(3))->method('generate')->with(
 			$this->equalTo('index'),
 			$this->equalTo('bbq'),
-			$this->equalTo(array( 'foo' => 'bar' ))
+			$this->equalTo([ 'foo' => 'bar' ])
 		)->will($this->throwException(new RouteGenerationFailedException));
 
 		$router->addRouter($ri1);
 		$router->addRouter($ri1);
 		$router->addRouter($ri1);
 
-		$this->assertFalse($router->generate('index', 'bbq', array( 'foo' => 'bar' )));
+		// Throws RouteGenerationFailedException
+		$router->generate('index', 'bbq', [ 'foo' => 'bar' ]);
 	}
 
-	public function testMatch_MidStream() {
-		$router = new MultiReversibleRouter();
+	public function testMatch_MidStream() : void {
+		$router = new MultiReversibleRouter;
 
 		/**
-		 * @var $ri1 \PHPUnit_Framework_MockObject_MockObject|\Corpus\Router\Interfaces\ReversibleRouterInterface
-		 * @var $ri2 \PHPUnit_Framework_MockObject_MockObject|\Corpus\Router\Interfaces\ReversibleRouterInterface
-		 * @var $ri3 \PHPUnit_Framework_MockObject_MockObject|\Corpus\Router\Interfaces\ReversibleRouterInterface
+		 * @var \Corpus\Router\Interfaces\ReversibleRouterInterface|\PHPUnit\Framework\MockObject\MockObject $ri1
+		 * @var \Corpus\Router\Interfaces\ReversibleRouterInterface|\PHPUnit\Framework\MockObject\MockObject $ri2
+		 * @var \Corpus\Router\Interfaces\ReversibleRouterInterface|\PHPUnit\Framework\MockObject\MockObject $ri3
 		 */
-		$ri1 = $this->getMock('\Corpus\Router\Interfaces\ReversibleRouterInterface');
-		$ri2 = $this->getMock('\Corpus\Router\Interfaces\ReversibleRouterInterface');
-		$ri3 = $this->getMock('\Corpus\Router\Interfaces\ReversibleRouterInterface');
+		$ri1 = $this->createMock(ReversibleRouterInterface::class);
+		$ri2 = $this->createMock(ReversibleRouterInterface::class);
+		$ri3 = $this->createMock(ReversibleRouterInterface::class);
 
 		$ri1->expects($this->once())->method('generate')->with(
 			$this->equalTo('index'),
 			$this->equalTo('bbq'),
-			$this->equalTo(array( 'foo' => 'bar' ))
+			$this->equalTo([ 'foo' => 'bar' ])
 		)->will($this->throwException(new RouteGenerationFailedException));
 
 		$ri2->expects($this->once())->method('generate')->with(
 			$this->equalTo('index'),
 			$this->equalTo('bbq'),
-			$this->equalTo(array( 'foo' => 'bar' ))
-		)->will($this->returnValue('index.html'));
+			$this->equalTo([ 'foo' => 'bar' ])
+		)->willReturn('index.html');
 
 		$ri3->expects($this->never())->method('match');
 
@@ -71,20 +71,21 @@ class MultiReversibleRouterTest extends \PHPUnit_Framework_TestCase {
 		$router->addRouter($ri2);
 		$router->addRouter($ri3);
 
-		$this->assertSame('index.html', $router->generate('index', 'bbq', array( 'foo' => 'bar' )));
+		$this->assertSame('index.html', $router->generate('index', 'bbq', [ 'foo' => 'bar' ]));
 	}
 
 	public function testConstruct() {
 		/**
-		 * @var $ri1 \PHPUnit_Framework_MockObject_MockObject|\Corpus\Router\Interfaces\ReversibleRouterInterface
-		 * @var $ri2 \PHPUnit_Framework_MockObject_MockObject|\Corpus\Router\Interfaces\ReversibleRouterInterface
-		 * @var $ri3 \PHPUnit_Framework_MockObject_MockObject|\Corpus\Router\Interfaces\ReversibleRouterInterface
+		 * @var \Corpus\Router\Interfaces\ReversibleRouterInterface|\PHPUnit\Framework\MockObject\MockObject $ri1
+		 * @var \Corpus\Router\Interfaces\ReversibleRouterInterface|\PHPUnit\Framework\MockObject\MockObject $ri2
+		 * @var \Corpus\Router\Interfaces\ReversibleRouterInterface|\PHPUnit\Framework\MockObject\MockObject $ri3
 		 */
-		$ri1 = $this->getMock('\Corpus\Router\Interfaces\ReversibleRouterInterface');
-		$ri2 = $this->getMock('\Corpus\Router\Interfaces\ReversibleRouterInterface');
-		$ri3 = $this->getMock('\Corpus\Router\Interfaces\ReversibleRouterInterface');
+		$ri1 = $this->createMock(ReversibleRouterInterface::class);
+		$ri2 = $this->createMock(ReversibleRouterInterface::class);
+		$ri3 = $this->createMock(ReversibleRouterInterface::class);
 
 		$router = new MultiReversibleRouter($ri1, $ri2, $ri3);
-		$this->assertSame(array( $ri1, $ri2, $ri3 ), $router->getRouters());
+		$this->assertSame([ $ri1, $ri2, $ri3 ], $router->getRouters());
 	}
+
 }

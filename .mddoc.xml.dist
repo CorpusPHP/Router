@@ -1,0 +1,28 @@
+<mddoc>
+
+	<docpage target="README.md" autoloader="psr4" autoloader-root="src" autoloader-root-namespace="Corpus\Router">
+
+		<section title="Corpus Router">
+			<badge-poser type="version"/>
+			<badge-poser type="license"/>
+			<badge-github-action name="CorpusPHP/Router" workflow="CI"/>
+			<badge-scrutinizer name="CorpusPHP/Router" type="quality"/>
+			<text>A Simple Collection of Routers</text>
+			<section title="Requirements">
+				<composer-requires/>
+			</section>
+			<section title="Installing">
+				<composer-install/>
+			</section>
+			<section title="Usage">
+				<section title="HttpRouter">
+					<source lang="php" name="example/example.php"/>
+				</section>
+			</section>
+			<section title="Documentation">
+				<file name="src/HttpRouter.php"/>
+				<file name="src/CliRouter.php"/>
+			</section>
+		</section>
+	</docpage>
+</mddoc>

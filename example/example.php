@@ -1,27 +1,9 @@
-<mddoc>
+<?php
 
-	<docpage target="README.md" autoloader="psr4" autoloader-root="src" autoloader-root-namespace="Corpus\Router">
-
-		<section title="Corpus Router">
-			<badge-poser type="version" />
-			<badge-poser type="license" />
-			<badge-travis name="CorpusPHP/Router" />
-			<text>A Simple Collection of Routers</text>
-			<section title="Requirements">
-				<composer-requires/>
-			</section>
-			<section title="Installing">
-				<composer-install/>
-			</section>
-			<section title="Usage">
-				<section title="HttpRouter">
-					<source lang="php"><![CDATA[<?php
-
-require('vendor/autoload.php');
+require __DIR__ . '/../vendor/autoload.php';
 
 // $_SERVER => ['REQUEST_METHOD' => [ 'method' => 'POST' ]]
 $router = new \Corpus\Router\HttpRouter('\\Corpus\\Controllers', $_SERVER);
-
 
 $route = $router->match('test/controller:action');
 
@@ -33,8 +15,7 @@ $route = $router->match('test/controller:action');
 //		'request'    => [ 'method' => 'POST' ],
 //	]
 
-
-# ----------------
+// ----------------
 
 $route = $router->match('test/controller?query=whatwhat');
 
@@ -46,29 +27,25 @@ $route = $router->match('test/controller?query=whatwhat');
 //		'request'    => [ 'method' => 'POST' ],
 //	]
 
-
-# ----------------
+// ----------------
 
 $route = $router->match($_SERVER['REQUEST_URI']);
 
 // $route = Current Request
 
-
-# ----------------
+// ----------------
 
 $url = $router->generate('myNamespace\\admin', 'index');
 
 // $url = '/myNamespace/admin:index'
 
-
-# ----------------
+// ----------------
 
 $url = $router->generate('\\Corpus\\Controllers\\myNamespace\\admin', 'index');
 
 // $url = '/myNamespace/admin:index'
 
-
-# ----------------
+// ----------------
 
 try {
 	$url = $router->generate('\\Invalid\\Absolute\\Controller', 'index');
@@ -77,14 +54,3 @@ try {
 }
 
 // $url = 'fail'
-
-]]></source>
-				</section>
-			</section>
-			<section title="Documentation">
-				<file name="src/HttpRouter.php"/>
-				<file name="src/CliRouter.php"/>
-			</section>
-		</section>
-	</docpage>
-</mddoc>

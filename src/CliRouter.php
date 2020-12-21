@@ -8,16 +8,13 @@ class CliRouter extends AbstractRouter {
 
 	protected $arguments;
 
-	function __construct( $root_namespace, array $arguments = array() ) {
+	public function __construct( $rootNamespace, array $arguments = [] ) {
 		$this->arguments = $arguments;
-		parent::__construct($root_namespace);
+
+		parent::__construct($rootNamespace);
 	}
 
-	/**
-	 * @param string $path
-	 * @return array|false
-	 */
-	public function match( $path ) {
+	public function match( string $path ) : ?array {
 		if( substr($path, -1) == '/' ) {
 			$path .= 'index';
 		}
@@ -26,7 +23,7 @@ class CliRouter extends AbstractRouter {
 
 		if( preg_match(
 			'%^
-				# offical namespace/class_name regex
+				# official namespace/class_name regex
 				(?P<namespace>(?:[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*/)*)
 				(?P<class_name>[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*)
 				(?::(?P<action>[a-zA-Z]+))?
@@ -35,13 +32,13 @@ class CliRouter extends AbstractRouter {
 		) {
 			$parts = explode('/', $regs['namespace'] . $regs['class_name']);
 			array_unshift($parts, $this->namespace);
-			$class_name = '\\' . implode('\\', $parts);
+			$className = '\\' . implode('\\', $parts);
 
-			$return = array(
-				self::CONTROLLER => $class_name,
+			$return = [
+				self::CONTROLLER => $className,
 				self::ARGUMENTS  => $this->arguments,
 				self::ACTION     => null,
-			);
+			];
 
 			if( !empty($regs['action']) && ctype_alpha($regs['action']) ) {
 				$return['action'] = $regs['action'];
@@ -50,7 +47,7 @@ class CliRouter extends AbstractRouter {
 			return $return;
 		}
 
-		return false;
+		return null;
 	}
 
-} 
+}

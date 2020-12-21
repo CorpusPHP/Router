@@ -6,56 +6,43 @@ use Corpus\Router\Interfaces\RouterInterface;
 
 /**
  * MultiRouter
- *
- * @package Corpus\Router
  */
 class MultiRouter implements RouterInterface {
 
-	/**
-	 * @var RouterInterface[]
-	 */
-	protected $routers = array();
+	/** @var RouterInterface[] */
+	protected $routers = [];
 
-	/**
-	 * @param ... RouterInterface
-	 */
-	public function __construct() {
-		foreach( func_get_args() as $arg ) {
-			$this->addRouter($arg);
-		}
+	public function __construct( RouterInterface ...$routers ) {
+		$this->routers = $routers;
 	}
 
 	/**
 	 * Add a router to the queue
-	 *
-	 * @param \Corpus\Router\Interfaces\RouterInterface $router
 	 */
-	public function addRouter( RouterInterface $router ) {
+	public function addRouter( RouterInterface $router ) : void {
 		$this->routers[] = $router;
 	}
 
 	/**
 	 * @return Interfaces\RouterInterface[]
 	 */
-	public function getRouters() {
+	public function getRouters() : array {
 		return $this->routers;
 	}
 
 	/**
 	 * Loops over routers in the order they were added until a match is found.
-	 *
-	 * @param string $path
-	 * @return array|false
 	 */
-	public function match( $path ) {
+	public function match( string $path ) : ?array {
 		foreach( $this->routers as $router ) {
 			$match = $router->match($path);
-			
-			if( $match !== false ) {
+
+			if( $match !== null ) {
 				return $match;
 			}
 		}
 
-		return false;
+		return null;
 	}
+
 }

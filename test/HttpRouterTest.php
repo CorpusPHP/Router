@@ -4,66 +4,69 @@ namespace Corpus\Test\Router;
 
 use Corpus\Router\HttpRouter;
 
-class HttpRouterTest extends \PHPUnit_Framework_TestCase {
+class HttpRouterTest extends \PHPUnit\Framework\TestCase {
 
-	protected $namespaces = array( '\\Foo', '\\Foo\\Bar', '\\Foo\\Bar\\ClassName', '\\Fun\\With_Underscores', '\\日本の\\しい' );
+	protected $namespaces = [ '\\Foo', '\\Foo\\Bar', '\\Foo\\Bar\\ClassName', '\\Fun\\With_Underscores', '\\日本の\\しい' ];
 
-	public function testMatch() {
+	public function testMatch() : void {
 
-		$server_arrays = array( array(), array( 'REQUEST_METHOD' => 'post' ), array( 'REQUEST_METHOD' => 'Get' ) );
-		$query_strings = array(
-			''                  => array(),
-			'?bob=ted'          => array( 'bob' => 'ted' ),
-			'?bob[]=1&bob[3]=5' => array( 'bob' => array( 1, 3 => 5 ) ),
-			'?what=0'           => array( 'what' => 0 ),
-		);
+		$serverArrays = [ [], [ 'REQUEST_METHOD' => 'post' ], [ 'REQUEST_METHOD' => 'Get' ] ];
+		$queryStrings = [
+			''                  => [],
+			'?bob=ted'          => [ 'bob' => 'ted' ],
+			'?bob[]=1&bob[3]=5' => [ 'bob' => [ 1, 3 => 5 ] ],
+			'?what=0'           => [ 'what' => 0 ],
+		];
 
 		foreach( $this->namespaces as $ns ) {
-			foreach( $server_arrays as $server_array ) {
-				foreach( $query_strings as $query_string => $query_data ) {
-					$router = new HttpRouter($ns, $server_array);
+			foreach( $serverArrays as $serverArray ) {
+				foreach( $queryStrings as $queryString => $queryData ) {
+					$router = new HttpRouter($ns, $serverArray);
 
-					$rm = isset($server_array['REQUEST_METHOD']) ? strtoupper($server_array['REQUEST_METHOD']) : null;
+					$rm = isset($serverArray['REQUEST_METHOD']) ? strtoupper($serverArray['REQUEST_METHOD']) : null;
 
-					$this->assertSame(false, $router->match('' . $query_string));
+					$this->assertNull($router->match('' . $queryString));
 
-					$result = array(
+					$result = [
 						'controller' => $ns . '\\index',
-						'options'    => $query_data,
+						'options'    => $queryData,
 						'action'     => null,
-					);
+					];
 					if( $rm ) {
 						$result['request']['method'] = $rm;
 					}
-					$this->assertEquals($result, $router->match('/' . $query_string));
 
-					$result = array(
+					$this->assertEquals($result, $router->match('/' . $queryString));
+
+					$result = [
 						'controller' => $ns . '\\Baz\\Qux',
-						'options'    => $query_data,
+						'options'    => $queryData,
 						'action'     => null,
-					);
+					];
 					if( $rm ) {
 						$result['request']['method'] = $rm;
 					}
-					$this->assertEquals($result, $router->match('/Baz/Qux' . $query_string));
 
-					$result = array(
+					$this->assertEquals($result, $router->match('/Baz/Qux' . $queryString));
+
+					$result = [
 						'controller' => $ns . '\\Baz\\Qux',
-						'options'    => $query_data,
+						'options'    => $queryData,
 						'action'     => 'What',
-					);
+					];
 					if( $rm ) {
 						$result['request']['method'] = $rm;
 					}
-					$this->assertEquals($result, $router->match('/Baz/Qux:What' . $query_string));
 
-					$this->assertSame(false, $router->match('/Baz/Qux.json:10' . $query_string)); //So we don't confuse the colon syntax with ports
+					$this->assertEquals($result, $router->match('/Baz/Qux:What' . $queryString));
+
+					$this->assertNull($router->match('/Baz/Qux.json:10' . $queryString)); //So we don't confuse the colon syntax with ports
 				}
 			}
 		}
 	}
 
-	public function testGenerate() {
+	public function testGenerate() : void {
 
 		foreach( $this->namespaces as $ns ) {
 			$router = new HttpRouter($ns);
@@ -76,7 +79,7 @@ class HttpRouterTest extends \PHPUnit_Framework_TestCase {
 			$this->assertSame('/Monkeys/Love/Long/Paths:list', $router->generate($ns . '\\Monkeys\\Love\\Long\\Paths', 'list'));
 
 			$this->assertSame('/Monkeys/Love/Long/Paths:list?what=butt&crap%5Banimal%5D%5Btype%5D=fish',
-				$router->generate($ns . '\\Monkeys\\Love\\Long\\Paths', 'list', array( 'what' => 'butt', 'crap' => array( 'animal' => array( 'type' => 'fish' ) ) )));
+				$router->generate($ns . '\\Monkeys\\Love\\Long\\Paths', 'list', [ 'what' => 'butt', 'crap' => [ 'animal' => [ 'type' => 'fish' ] ] ]));
 
 			// Test Relative
 			$this->assertSame('/Monkey', $router->generate('Monkey'));
@@ -86,27 +89,25 @@ class HttpRouterTest extends \PHPUnit_Framework_TestCase {
 			$this->assertSame('/Monkeys/Love/Long/Paths:list', $router->generate('Monkeys\\Love\\Long\\Paths', 'list'));
 
 			$this->assertSame('/Monkeys/Love/Long/Paths:list?what=butt&crap%5Banimal%5D%5Btype%5D=fish',
-				$router->generate('Monkeys\\Love\\Long\\Paths', 'list', array( 'what' => 'butt', 'crap' => array( 'animal' => array( 'type' => 'fish' ) ) )));
+				$router->generate('Monkeys\\Love\\Long\\Paths', 'list', [ 'what' => 'butt', 'crap' => [ 'animal' => [ 'type' => 'fish' ] ] ]));
 		}
 	}
 
-	/**
-	 * @expectedException \Corpus\Router\Exceptions\NonRoutableException
-	 */
-	public function testGenerateException() {
+	public function testGenerateException() : void {
+		$this->expectException(\Corpus\Router\Exceptions\NonRoutableException::class);
+
 		$router = new HttpRouter('\\Foo');
 		$router->generate(7);
 	}
 
-	/**
-	 * @expectedException \Corpus\Router\Exceptions\NonRoutableException
-	 */
-	public function testGenerateException2() {
+	public function testGenerateException2() : void {
+		$this->expectException(\Corpus\Router\Exceptions\NonRoutableException::class);
+
 		$router = new HttpRouter('\\Foo');
 		$router->generate('\\Bar\\Loving');
 	}
 
-	public function testGetNamespace() {
+	public function testGetNamespace() : void {
 		$router = new HttpRouter('\\Foo\\Bar');
 		$this->assertEquals('Foo\\Bar', $router->getNamespace());
 
