@@ -2,8 +2,7 @@
 
 [![Latest Stable Version](https://poser.pugx.org/corpus/router/version)](https://packagist.org/packages/corpus/router)
 [![License](https://poser.pugx.org/corpus/router/license)](https://packagist.org/packages/corpus/router)
-[![Build Status](https://github.com/CorpusPHP/Router/workflows/CI/badge.svg?)](https://github.com/CorpusPHP/Router/actions?query=workflow%3ACI)
-[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/CorpusPHP/Router/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/CorpusPHP/Router)
+[![CI](https://github.com/CorpusPHP/Router/workflows/CI/badge.svg?)](https://github.com/CorpusPHP/Router/actions?query=workflow%3ACI)
 
 
 A Simple Collection of Routers

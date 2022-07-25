@@ -6,7 +6,6 @@
 			<badge-poser type="version"/>
 			<badge-poser type="license"/>
 			<badge-github-action name="CorpusPHP/Router" workflow="CI"/>
-			<badge-scrutinizer name="CorpusPHP/Router" type="quality"/>
 			<text>A Simple Collection of Routers</text>
 			<section title="Requirements">
 				<composer-requires/>
