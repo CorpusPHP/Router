@@ -16,7 +16,7 @@
 		"squizlabs/php_codesniffer": "^4.0",
 		"corpus/coding-standard": "^0.10.0",
 		"friendsofphp/php-cs-fixer": "^3.95",
-		"donatj/mddoc": "^0.8.0"
+		"donatj/mddoc": "^0.10.1"
 	},
 	"autoload": {
 		"psr-4": {
