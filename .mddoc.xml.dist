@@ -1,11 +1,12 @@
 <mddoc>
 
-	<docpage target="README.md" autoloader="psr4" autoloader-root="src" autoloader-root-namespace="Corpus\Router">
+	<docpage target="README.md">
+		<autoloader type="psr4" root="src" namespace="Corpus\Router"/>
 
 		<section title="Corpus Router">
 			<badge-poser type="version"/>
 			<badge-poser type="license"/>
-			<badge-github-action name="CorpusPHP/Router" workflow="CI"/>
+			<badge-github-action name="CorpusPHP/Router" workflow-file="ci.yml"/>
 			<text>A Simple Collection of Routers</text>
 			<section title="Requirements">
 				<composer-requires/>

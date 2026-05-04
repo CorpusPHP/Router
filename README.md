@@ -2,14 +2,14 @@
 
 [![Latest Stable Version](https://poser.pugx.org/corpus/router/version)](https://packagist.org/packages/corpus/router)
 [![License](https://poser.pugx.org/corpus/router/license)](https://packagist.org/packages/corpus/router)
-[![CI](https://github.com/CorpusPHP/Router/workflows/CI/badge.svg?)](https://github.com/CorpusPHP/Router/actions?query=workflow%3ACI)
+[![ci.yml](https://github.com/CorpusPHP/Router/actions/workflows/ci.yml/badge.svg?)](https://github.com/CorpusPHP/Router/actions/workflows/ci.yml)
 
 
 A Simple Collection of Routers
 
 ## Requirements
 
-- **php**: >=7.1
+- **php**: >=8.1
 
 ## Installing
 
@@ -177,6 +177,8 @@ Generate a URL for the given controller, action and options
 ##### Parameters:
 
 - ***object*** | ***string*** `$controller` - Instance or Relative 'admin\index' or absolute '\Controllers\www\admin\index'
+
+**Throws**: `\Corpus\Router\Exceptions\NonRoutableException`
 
 ---
 
