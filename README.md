@@ -2,7 +2,7 @@
 
 [![Latest Stable Version](https://poser.pugx.org/corpus/router/version)](https://packagist.org/packages/corpus/router)
 [![License](https://poser.pugx.org/corpus/router/license)](https://packagist.org/packages/corpus/router)
-[![ci.yml](https://github.com/CorpusPHP/Router/actions/workflows/ci.yml/badge.svg?)](https://github.com/CorpusPHP/Router/actions/workflows/ci.yml)
+[![ci.yml](https://github.com/CorpusPHP/Router/actions/workflows/ci.yml/badge.svg)](https://github.com/CorpusPHP/Router/actions/workflows/ci.yml)
 
 
 A Simple Collection of Routers
@@ -85,7 +85,7 @@ try {
 
 ## Documentation
 
-### Class: \Corpus\Router\HttpRouter
+### Class: Corpus\Router\HttpRouter
 
 ```php
 <?php
@@ -192,7 +192,7 @@ function getNamespace() : string
 
 - ***string*** - The canonical namespace prefix
 
-### Class: \Corpus\Router\CliRouter
+### Class: Corpus\Router\CliRouter
 
 ```php
 <?php
