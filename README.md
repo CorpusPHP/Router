@@ -101,10 +101,10 @@ class HttpRouter {
 #### Method: HttpRouter->__construct
 
 ```php
-function __construct(string $rootNamespace [, array $server = []])
+function __construct(string $rootNamespace, array $server = [])
 ```
 
-##### Parameters:
+##### Parameters
 
 - ***array*** `$server` - The $_SERVER array - optional
 
@@ -113,7 +113,7 @@ function __construct(string $rootNamespace [, array $server = []])
 #### Method: HttpRouter->match
 
 ```php
-function match(string $path) : ?array
+function match(string $path): ?array
 ```
 
 Match given path to a route array.  
@@ -156,11 +156,11 @@ The returned route array the the a shape of
 ]  
 ```
 
-##### Parameters:
+##### Parameters
 
 - ***string*** `$path` - The path to match against including query string ala `foo/bar.html?param=woo`
 
-##### Returns:
+##### Return Value
 
 - ***array*** | ***null*** - route array or null on failure to route
 
@@ -169,12 +169,12 @@ The returned route array the the a shape of
 #### Method: HttpRouter->generate
 
 ```php
-function generate($controller [, ?string $action = null [, array $options = []]]) : string
+function generate($controller, ?string $action = null, array $options = []): string
 ```
 
 Generate a URL for the given controller, action and options
 
-##### Parameters:
+##### Parameters
 
 - ***object*** | ***string*** `$controller` - Instance or Relative 'admin\index' or absolute '\Controllers\www\admin\index'
 
@@ -185,10 +185,10 @@ Generate a URL for the given controller, action and options
 #### Method: HttpRouter->getNamespace
 
 ```php
-function getNamespace() : string
+function getNamespace(): string
 ```
 
-##### Returns:
+##### Return Value
 
 - ***string*** - The canonical namespace prefix
 
@@ -209,10 +209,10 @@ class CliRouter {
 #### Method: CliRouter->__construct
 
 ```php
-function __construct($rootNamespace [, array $arguments = []])
+function __construct($rootNamespace, array $arguments = [])
 ```
 
-##### Parameters:
+##### Parameters
 
 - ***string*** `$rootNamespace` - The namespace prefix the controllers will be under
 
@@ -221,7 +221,7 @@ function __construct($rootNamespace [, array $arguments = []])
 #### Method: CliRouter->match
 
 ```php
-function match(string $path) : ?array
+function match(string $path): ?array
 ```
 
 Match given path to a route array.  
@@ -244,11 +244,11 @@ The returned route array the the a shape of
 ]  
 ```
 
-##### Parameters:
+##### Parameters
 
 - ***string*** `$path` - The path to match against including query string ala `foo/bar.html?param=woo`
 
-##### Returns:
+##### Return Value
 
 - ***array*** | ***null*** - route array or null on failure to route
 
@@ -257,9 +257,9 @@ The returned route array the the a shape of
 #### Method: CliRouter->getNamespace
 
 ```php
-function getNamespace() : string
+function getNamespace(): string
 ```
 
-##### Returns:
+##### Return Value
 
 - ***string*** - The canonical namespace prefix
