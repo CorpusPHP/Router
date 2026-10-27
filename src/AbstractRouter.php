@@ -16,22 +16,22 @@ abstract class AbstractRouter implements RouterInterface {
 		$this->namespace = $this->trimSlashes($rootNamespace);
 	}
 
-	final protected function trimSlashes( string $path ) : string {
+	final protected function trimSlashes( string $path ): string {
 		return trim($path, ' /\\');
 	}
 
 	/**
 	 * @return string The canonical namespace prefix
 	 */
-	public function getNamespace() : string {
+	public function getNamespace(): string {
 		return $this->namespace;
 	}
 
-	protected function isOfNamespace( string $className ) : bool {
+	protected function isOfNamespace( string $className ): bool {
 		return stripos($this->trimSlashes($className), $this->namespace . '\\') === 0;
 	}
 
-	protected function parseStr( string $queryStr ) : array {
+	protected function parseStr( string $queryStr ): array {
 		parse_str($queryStr, $opts);
 
 		return $opts;
@@ -40,7 +40,7 @@ abstract class AbstractRouter implements RouterInterface {
 	/**
 	 * @param object|string $controller
 	 */
-	protected function classNameC14N( $controller ) : ?string {
+	protected function classNameC14N( $controller ): ?string {
 		$className = null;
 		if( is_object($controller) && is_callable($controller) && $this->isOfNamespace($className = get_class($controller)) ) {
 		} elseif( is_string($controller) && $controller ) {

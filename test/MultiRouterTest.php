@@ -7,13 +7,13 @@ use Corpus\Router\MultiRouter;
 
 class MultiRouterTest extends \PHPUnit\Framework\TestCase {
 
-	public function testEmpty() : void {
+	public function testEmpty(): void {
 		$router = new MultiRouter;
 
 		$this->assertNull($router->match('index.html'));
 	}
 
-	public function testMatch_None() : void {
+	public function testMatch_None(): void {
 		$router = new MultiRouter;
 
 		/**
@@ -22,7 +22,7 @@ class MultiRouterTest extends \PHPUnit\Framework\TestCase {
 		$ri1 = $this->createMock(RouterInterface::class);
 
 		$ri1->expects($this->exactly(3))->method('match')->with(
-			$this->equalTo('index.html')
+			$this->equalTo('index.html'),
 		)->willReturn(null);
 
 		$router->addRouter($ri1);
@@ -32,7 +32,7 @@ class MultiRouterTest extends \PHPUnit\Framework\TestCase {
 		$this->assertNull($router->match('index.html'));
 	}
 
-	public function testMatch_MidStream() : void {
+	public function testMatch_MidStream(): void {
 		$router = new MultiRouter;
 
 		/**
@@ -45,11 +45,11 @@ class MultiRouterTest extends \PHPUnit\Framework\TestCase {
 		$ri3 = $this->createMock(RouterInterface::class);
 
 		$ri1->expects($this->once())->method('match')->with(
-			$this->equalTo('index.html')
+			$this->equalTo('index.html'),
 		)->willReturn(null);
 
 		$ri2->expects($this->once())->method('match')->with(
-			$this->equalTo('index.html')
+			$this->equalTo('index.html'),
 		)->willReturn([ true ]);
 
 		$ri3->expects($this->never())->method('match');
@@ -61,7 +61,7 @@ class MultiRouterTest extends \PHPUnit\Framework\TestCase {
 		$this->assertSame([ true ], $router->match('index.html'));
 	}
 
-	public function testConstruct() : void {
+	public function testConstruct(): void {
 		/**
 		 * @var \Corpus\Router\Interfaces\RouterInterface|\PHPUnit\Framework\MockObject\MockObject $ri1
 		 * @var \Corpus\Router\Interfaces\RouterInterface|\PHPUnit\Framework\MockObject\MockObject $ri2

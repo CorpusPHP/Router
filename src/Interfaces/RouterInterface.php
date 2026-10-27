@@ -32,6 +32,6 @@ interface RouterInterface {
 	 * @param string $path The path to match against including query string ala `foo/bar.html?param=woo`
 	 * @return array|null route array or null on failure to route
 	 */
-	public function match( string $path ) : ?array;
+	public function match( string $path ): ?array;
 
 }

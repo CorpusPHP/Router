@@ -31,5 +31,8 @@ jobs:
       - name: Run tests
         run: make test
 
+      - name: Verify formatting
+        run: make test-fixer
+
       - name: Verify documentation
-        run: ./vendor/bin/mddoc --dry-run=true
+        run: make test-docs

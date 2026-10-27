@@ -10,6 +10,6 @@ interface ReversibleRouterInterface extends RouterInterface {
 	 * @param object|string $controller Instance or Relative 'admin\index' or absolute '\Controllers\www\admin\index'
 	 * @throws \Corpus\Router\Exceptions\RouteGenerationFailedException
 	 */
-	public function generate( $controller, ?string $action = null, array $options = [] ) : string;
+	public function generate( $controller, ?string $action = null, array $options = [] ): string;
 
 }

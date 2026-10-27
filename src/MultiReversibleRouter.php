@@ -14,7 +14,7 @@ class MultiReversibleRouter extends MultiRouter implements ReversibleRouterInter
 	 * @inheritdoc
 	 * @param \Corpus\Router\Interfaces\ReversibleRouterInterface $router
 	 */
-	public function addRouter( RouterInterface $router ) : void {
+	public function addRouter( RouterInterface $router ): void {
 		if( $router instanceof ReversibleRouterInterface ) {
 			parent::addRouter($router);
 
@@ -30,7 +30,7 @@ class MultiReversibleRouter extends MultiRouter implements ReversibleRouterInter
 	 * @param object|string $controller Instance or Relative 'admin\index' or absolute '\Controllers\www\admin\index'
 	 * @throws \Corpus\Router\Exceptions\RouteGenerationFailedException
 	 */
-	public function generate( $controller, ?string $action = null, array $options = [] ) : string {
+	public function generate( $controller, ?string $action = null, array $options = [] ): string {
 		/**
 		 * @var ReversibleRouterInterface $router
 		 */
