@@ -16,7 +16,7 @@ class MultiReversibleRouterTest extends \PHPUnit\Framework\TestCase {
 		$router->generate('index');
 	}
 
-	public function testMatch_None() : void {
+	public function testMatch_None(): void {
 
 		$this->expectException(\Corpus\Router\Exceptions\RouteGenerationFailedException::class);
 
@@ -30,7 +30,7 @@ class MultiReversibleRouterTest extends \PHPUnit\Framework\TestCase {
 		$ri1->expects($this->exactly(3))->method('generate')->with(
 			$this->equalTo('index'),
 			$this->equalTo('bbq'),
-			$this->equalTo([ 'foo' => 'bar' ])
+			$this->equalTo([ 'foo' => 'bar' ]),
 		)->will($this->throwException(new RouteGenerationFailedException));
 
 		$router->addRouter($ri1);
@@ -41,7 +41,7 @@ class MultiReversibleRouterTest extends \PHPUnit\Framework\TestCase {
 		$router->generate('index', 'bbq', [ 'foo' => 'bar' ]);
 	}
 
-	public function testMatch_MidStream() : void {
+	public function testMatch_MidStream(): void {
 		$router = new MultiReversibleRouter;
 
 		/**
@@ -56,13 +56,13 @@ class MultiReversibleRouterTest extends \PHPUnit\Framework\TestCase {
 		$ri1->expects($this->once())->method('generate')->with(
 			$this->equalTo('index'),
 			$this->equalTo('bbq'),
-			$this->equalTo([ 'foo' => 'bar' ])
+			$this->equalTo([ 'foo' => 'bar' ]),
 		)->will($this->throwException(new RouteGenerationFailedException));
 
 		$ri2->expects($this->once())->method('generate')->with(
 			$this->equalTo('index'),
 			$this->equalTo('bbq'),
-			$this->equalTo([ 'foo' => 'bar' ])
+			$this->equalTo([ 'foo' => 'bar' ]),
 		)->willReturn('index.html');
 
 		$ri3->expects($this->never())->method('match');

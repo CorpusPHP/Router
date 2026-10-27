@@ -95,7 +95,7 @@ class HttpRuleRouter extends AbstractRouter implements ReversibleRouterInterface
 		return $out . '$%';
 	}
 
-	public function match( string $path ) : ?array {
+	public function match( string $path ): ?array {
 		$parts = parse_url($path);
 
 		$path = empty($parts['path']) ? '' : $parts['path'];
@@ -138,7 +138,7 @@ class HttpRuleRouter extends AbstractRouter implements ReversibleRouterInterface
 	 * @throws \Corpus\Router\Exceptions\NonRoutableException
 	 * @throws \Corpus\Router\Exceptions\RouteGenerationFailedException
 	 */
-	public function generate( $controller, ?string $action = null, array $options = [] ) : string {
+	public function generate( $controller, ?string $action = null, array $options = [] ): string {
 		$className = $this->classNameC14N($controller);
 
 		if( !$className ) {
@@ -159,8 +159,8 @@ class HttpRuleRouter extends AbstractRouter implements ReversibleRouterInterface
 						$name = $token[0];
 
 						if( isset($xoptions[$name]) ) {
-							if( !is_scalar($xoptions[$name]) || is_null($xoptions[$name]) ) {
-								//Inline options must be scalar
+							if( !is_scalar($xoptions[$name]) || $xoptions[$name] === null ) {
+								// Inline options must be scalar
 								break 2;
 							}
 
@@ -180,7 +180,7 @@ class HttpRuleRouter extends AbstractRouter implements ReversibleRouterInterface
 				}
 
 				$options = array_filter($xoptions, function ( $val ) {
-					return !is_null($val);
+					return $val !== null;
 				});
 				if( count($options) > 0 ) {
 					$path .= '?' . http_build_query($xoptions);
@@ -213,7 +213,7 @@ class HttpRuleRouter extends AbstractRouter implements ReversibleRouterInterface
 				return ctype_alnum($value);
 		}
 
-		throw new \RuntimeException('Invalid Token'); //should never be reached
+		throw new \RuntimeException('Invalid Token'); // should never be reached
 	}
 
 }

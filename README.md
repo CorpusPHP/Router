@@ -29,7 +29,7 @@ composer require 'corpus/router'
 require __DIR__ . '/../vendor/autoload.php';
 
 // $_SERVER => ['REQUEST_METHOD' => [ 'method' => 'POST' ]]
-$router = new \Corpus\Router\HttpRouter('\\Corpus\\Controllers', $_SERVER);
+$router = new \Corpus\Router\HttpRouter('\Corpus\Controllers', $_SERVER);
 
 $route = $router->match('test/controller:action');
 
@@ -61,20 +61,20 @@ $route = $router->match($_SERVER['REQUEST_URI']);
 
 // ----------------
 
-$url = $router->generate('myNamespace\\admin', 'index');
+$url = $router->generate('myNamespace\admin', 'index');
 
 // $url = '/myNamespace/admin:index'
 
 // ----------------
 
-$url = $router->generate('\\Corpus\\Controllers\\myNamespace\\admin', 'index');
+$url = $router->generate('\Corpus\Controllers\myNamespace\admin', 'index');
 
 // $url = '/myNamespace/admin:index'
 
 // ----------------
 
 try {
-	$url = $router->generate('\\Invalid\\Absolute\\Controller', 'index');
+	$url = $router->generate('\Invalid\Absolute\Controller', 'index');
 }catch (\Corpus\Router\Exceptions\NonRoutableException $e) {
 	$url = 'fail';
 }
@@ -169,7 +169,11 @@ The returned route array the the a shape of
 #### Method: HttpRouter->generate
 
 ```php
-function generate($controller, ?string $action = null, array $options = []): string
+function generate(
+	$controller,
+	?string $action = null,
+	array $options = [],
+): string
 ```
 
 Generate a URL for the given controller, action and options

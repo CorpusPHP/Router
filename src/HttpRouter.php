@@ -18,7 +18,7 @@ class HttpRouter extends AbstractRouter implements ReversibleRouterInterface {
 		parent::__construct($rootNamespace);
 	}
 
-	public function match( string $path ) : ?array {
+	public function match( string $path ): ?array {
 		$parts = parse_url($path);
 
 		$path = empty($parts['path']) ? '' : $parts['path'];
@@ -32,13 +32,13 @@ class HttpRouter extends AbstractRouter implements ReversibleRouterInterface {
 
 		if( preg_match(
 			<<<'REGEX'
-%^
-	# offical namespace/class_name regex
-	(?P<namespace>(?:[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*/)*)
-	(?P<class_name>[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*)
-	(?::(?P<action>[a-zA-Z]+))?
-$%x
-REGEX
+				%^
+					# offical namespace/class_name regex
+					(?P<namespace>(?:[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*/)*)
+					(?P<class_name>[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*)
+					(?::(?P<action>[a-zA-Z]+))?
+				$%x
+				REGEX
 			,
 			$path, $regs)
 		) {
@@ -74,7 +74,7 @@ REGEX
 	 * @param object|string $controller Instance or Relative 'admin\index' or absolute '\Controllers\www\admin\index'
 	 * @throws \Corpus\Router\Exceptions\NonRoutableException
 	 */
-	public function generate( $controller, ?string $action = null, array $options = [] ) : string {
+	public function generate( $controller, ?string $action = null, array $options = [] ): string {
 		$className = $this->classNameC14N($controller);
 
 		if( !$className ) {
