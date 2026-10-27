@@ -11,6 +11,10 @@ fix: cbf
 test: cs
 	vendor/bin/phpunit
 
+.PHONY: test-docs
+test-docs:
+	vendor/bin/mddoc --dry-run=true
+
 .PHONY: cs
 cs:
 	vendor/bin/phpcs
